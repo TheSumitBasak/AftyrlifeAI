@@ -8,6 +8,7 @@ import {
 import type { LinksFunction } from "@remix-run/node";
 
 import "./tailwind.css";
+import { useEffect, useState } from "react";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -23,6 +24,21 @@ export const links: LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    const isDarkMode =
+      globalThis?.window?.matchMedia &&
+      globalThis?.window?.matchMedia?.("(prefers-color-scheme: dark)")?.matches;
+
+    const theme =
+      globalThis?.localStorage?.getItem?.("site-theme") ||
+      (isDarkMode ? "night" : "winter");
+    
+    document.documentElement.setAttribute("data-theme", theme);
+    setIsMounted(true);
+  }, []);
+
   return (
     <html lang="en">
       <head>
@@ -32,7 +48,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
+        {isMounted ? children : ""}
         <ScrollRestoration />
         <Scripts />
       </body>
