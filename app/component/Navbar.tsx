@@ -25,9 +25,7 @@ export default function Navbar() {
     <div
       data-at-top={isTop}
       className={`group fixed inset-x-0 z-[60] flex justify-center transition-transform duration-500 data-[scrolling=down]:-top-full sm:container ${
-        visible
-          ? "translate-y-0 [&:not([data-scrolling=down])]:top-4"
-          : "-translate-y-full"
+        visible ? "translate-y-0 pt-4" : "-translate-y-full"
       }`}
     >
       <div className="group-data-[at-top=false]:bg-base-100 group-data-[at-top=false]:dark:bg-base-200 flex w-full items-center justify-between rounded-full px-6 py-3 transition-[width] duration-500 group-data-[at-top=false]:w-[800px] group-data-[at-top=false]:shadow group-data-[at-top=false]:max-sm:mx-2 lg:py-1.5">
@@ -74,7 +72,7 @@ export default function Navbar() {
         <div className="gap-3">
           <ul className="menu menu-horizontal hidden gap-2 px-1 lg:inline-flex">
             <li>
-              <Link to="/">Home</Link>
+              <Link to="/demo">Demo</Link>
             </li>
             <li>
               <Link to="/contact-us">Contact us</Link>
@@ -84,7 +82,7 @@ export default function Navbar() {
             </li>
           </ul>
         </div>
-        <div className="inline-flex items-center gap-2.5">
+        <div className="inline-flex items-center gap-3">
           <label className="swap swap-rotate">
             {/* this hidden checkbox controls the state */}
             <input
@@ -113,9 +111,17 @@ export default function Navbar() {
           </label>
           <Link className="btn btn-primary btn-sm btn-square" to="/login">
             {globalThis?.localStorage?.getItem("token") ? (
-              <LayoutDashboardIcon className="size-4 stroke-base-200" strokeWidth={3} />
+              <LayoutDashboardIcon
+                className="tooltip size-4 stroke-base-200"
+                data-tip="Dashboard"
+                strokeWidth={3}
+              />
             ) : (
-              <LogIn className="size-4 stroke-base-200" strokeWidth={3} />
+              <LogIn
+                className="tooltip size-4 stroke-base-200"
+                data-tip="Login"
+                strokeWidth={3}
+              />
             )}
           </Link>
         </div>
