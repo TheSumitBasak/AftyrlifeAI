@@ -1,19 +1,12 @@
 import { Link } from "@remix-run/react";
-import { LayoutDashboardIcon, LogIn, Menu, Moon, Sun } from "lucide-react";
+import { LayoutDashboardIcon, LogIn, Menu } from "lucide-react";
 import { useEffect, useState } from "react";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
-  const [expandNavbar, setExpandNavbar] = useState<boolean>(false);
   const [prevScrollPos, setPrevScrollPos] = useState<number>(0);
   const [visible, setVisible] = useState<boolean>(true);
   const [isTop, setIsTop] = useState<boolean>(true);
-  const [theme, setTheme] = useState<string>(() => {
-    // Initialize theme from localStorage, default to 'winter'
-    return globalThis?.localStorage?.getItem?.("site-theme") || "winter";
-  });
-
-  // Themes array for easy switching
-  const themes = ["winter", "night"];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,18 +20,6 @@ export default function Navbar() {
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, [prevScrollPos]);
-
-  useEffect(() => {
-    // Update localStorage and html attribute when theme changes
-    globalThis?.localStorage?.setItem?.("site-theme", theme);
-    document.documentElement.setAttribute("data-theme", theme);
-  }, [theme]);
-
-  const toggleTheme = () => {
-    const currentIndex = themes.indexOf(theme);
-    const nextIndex = (currentIndex + 1) % themes.length;
-    setTheme(themes[nextIndex]);
-  };
 
   return (
     <div
@@ -102,17 +83,7 @@ export default function Navbar() {
           </ul>
         </div>
         <div className="inline-flex items-center gap-3">
-          <button
-            onClick={toggleTheme}
-            className="btn btn-ghost btn-square"
-            aria-label="Toggle Theme"
-          >
-            {theme === "night" ? (
-              <Sun className="size-6" />
-            ) : (
-              <Moon className="size-6" />
-            )}
-          </button>
+          <ThemeToggle/>
           <Link className="btn btn-primary btn-sm btn-square" to="/login">
             {globalThis?.localStorage?.getItem("token") ? (
               <LayoutDashboardIcon
