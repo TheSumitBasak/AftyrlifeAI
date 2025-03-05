@@ -2,3 +2,50 @@
 @plugin "daisyui" {
   themes: winter --default, night --prefersdark;
 }
+
+.nav-design-container {
+  width: 120%;
+  height: 120%;
+  opacity: 0.5;
+  background-image: radial-gradient(white 6%, transparent 6%),
+    linear-gradient(
+      0deg,
+      transparent 24%,
+      var(--color-primary) 25%,
+      var(--color-primary) 26%,
+      transparent 27%,
+      transparent 74%,
+      var(--color-primary) 75%,
+      var(--color-primary) 76%,
+      transparent 77%,
+      transparent
+    ),
+    linear-gradient(
+      90deg,
+      transparent 24%,
+      var(--color-primary) 25%,
+      var(--color-primary) 26%,
+      transparent 27%,
+      transparent 74%,
+      var(--color-primary) 75%,
+      var(--color-primary) 76%,
+      transparent 77%,
+      transparent
+    );
+  background-size: 85px 75px;
+  background-position: 22px 18px, 0 0, 0 0;
+  background-repeat: repeat, repeat, repeat;
+
+  animation: nav-animation 6000ms;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes nav-animation {
+  from {
+    transform: translate(-85px, -75px);
+  }
+  to {
+    transform: translate(0, 0);
+  }
+}
