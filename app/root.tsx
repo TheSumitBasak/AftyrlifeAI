@@ -34,7 +34,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     const theme =
       globalThis?.localStorage?.getItem?.("site-theme") ||
       (isDarkMode ? "night" : "winter");
-    
+
     document.documentElement.setAttribute("data-theme", theme);
     setIsMounted(true);
   }, []);

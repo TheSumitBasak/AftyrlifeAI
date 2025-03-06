@@ -89,7 +89,7 @@ export default function Navbar() {
               <LayoutDashboardIcon
                 className="tooltip size-4 stroke-base-200"
                 data-tip="Dashboard"
-                strokeWidth={3}
+                strokeWidth={1.5}
               />
             ) : (
               <LogIn
