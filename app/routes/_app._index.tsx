@@ -25,7 +25,7 @@ export default function Index() {
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi,
             architecto? Tempore, aliquam beatae.
           </p>
-          <Link to="/dashboard" className="mt-3 relative bg-gradient-to-br from-primary via-info to-accent rounded-full px-6 py-2 text-xl font-bold shadow-lg">
+          <Link to="/login" className="mt-3 relative bg-gradient-to-br from-primary via-info to-accent rounded-full px-6 py-2 text-xl font-bold shadow-lg">
             <span className="absolute inset-0 rounded-full bg-white m-1"></span>
             <span className="relative bg-gradient-to-r from-primary via-info to-accent bg-clip-text text-transparent">
               Get Started
