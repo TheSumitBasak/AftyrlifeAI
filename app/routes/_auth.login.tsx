@@ -8,7 +8,7 @@ export default function Login() {
       <form className="grid grid-cols-1 w-full space-y-3">
         <div>
           <label>Email:</label>
-          <label className="input w-full">
+          <label className="input !outline-none mt-0.5 w-full validator">
             <svg
               className="h-[1em] opacity-50"
               xmlns="http://www.w3.org/2000/svg"
@@ -30,8 +30,7 @@ export default function Login() {
         </div>
         <div>
           <label>Password:</label>
-
-          <label className="input validator">
+          <label className="input !outline-none mt-0.5 validator">
             <svg
               className="h-[1em] opacity-50"
               xmlns="http://www.w3.org/2000/svg"
@@ -68,7 +67,7 @@ export default function Login() {
         </button>
       </form>
       <p className="text-center mt-2">
-        Don't have an account? <Link to="/register" className="link link-primary">Sign up!</Link>
+        Don't have an account? <Link to="/signup" className="link link-primary">Sign up!</Link>
       </p>
     </section>
   );

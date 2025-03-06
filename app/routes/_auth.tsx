@@ -3,11 +3,11 @@ import ThemeToggle from "~/component/ThemeToggle";
 
 export default function AuthLayout() {
   return (
-    <div className="fixed inset-0 overflow-auto grid grid-cols-2">
-      <div className="relative overflow-hidden flex items-center justify-center">
-        <Link className="absolute top-5 left-5" to="/">
-          <h1 className="text-xl font-bold">AftyrlifeAI</h1>
-        </Link>
+    <div className="fixed inset-0 overflow-auto grid md:grid-cols-2 grid-cols-1">
+      <Link className="absolute z-10 top-5 left-5" to="/">
+        <h1 className="text-xl font-bold">AftyrlifeAI</h1>
+      </Link>
+      <div className="relative overflow-hidden md:flex items-center justify-center hidden ">
         <h1 className="lg:text-6xl md:text-5xl text-4xl md:font-extrabold font-bold text-center">
           Lorem ipsum dolor sit, amet consectetur adipisicing elit.
         </h1>
@@ -15,9 +15,9 @@ export default function AuthLayout() {
       </div>
       <div className="flex flex-col items-center justify-center relative">
         <div className="absolute right-5 top-5">
-          <ThemeToggle/>
+          <ThemeToggle />
         </div>
-        <div className="max-w-[90vw] w-80 mx-auto ">
+        <div className="max-w-[90vw] w-80 mx-auto py-15">
           <Outlet />
         </div>
       </div>
