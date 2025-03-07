@@ -70,7 +70,7 @@ export default function Navbar() {
           </Link>
         </div>
         <div className="gap-3">
-          <ul className="menu menu-horizontal hidden gap-2 px-1 lg:inline-flex">
+          <ul className="menu menu-horizontal hidden gap-2 px-1 lg:inline-flex font-semibold">
             <li>
               <Link to="/demo">Demo</Link>
             </li>
