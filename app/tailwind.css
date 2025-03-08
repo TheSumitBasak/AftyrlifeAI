@@ -1,10 +1,13 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: winter --default, night --prefersdark;
+  themes: fantasy --default, night --prefersdark;
 }
 @plugin "daisyui/theme" {
-  name: winter;
+  name: fantasy;
   --color-primary: oklch(75.351% 0.138 232.661);
+  --color-primary-content: oklch(1 0 0);
+  --color-base-300: oklch(98% 0.003 247.858);
+
 }
 
 .nav-design-container {
