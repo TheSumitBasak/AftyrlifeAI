@@ -1,8 +1,9 @@
 import { Link } from "@remix-run/react";
-import { CircleUser, LogIn } from "lucide-react";
-import ThemeToggle from "./ThemeToggle";
+import { CircleUser, LogIn, Menu } from "lucide-react";
+import ThemeToggle from "../ThemeToggle";
+import SideBar from "./SideDrawer";
 
-export default function DashboardNavbar() {
+export default function DashboardTrainNavbar() {
   return (
     <nav
       style={{
@@ -12,9 +13,36 @@ export default function DashboardNavbar() {
     >
       <div className="flex w-full items-center justify-between rounded-full px-6 py-3 lg:py-1.5">
         <div className="flex items-center gap-2">
-          <Link to="/">
-            <h1 className="text-xl font-bold">AftyrlifeAI</h1>
-          </Link>
+          <div className="flex-none">
+            <div className="drawer">
+              <input
+                id="demo-drawer"
+                className="drawer-toggle"
+                type="checkbox"
+              />
+              <div className="drawer-content lg:hidden">
+                <label
+                  htmlFor="demo-drawer"
+                  className="btn drawer-button btn-ghost btn-square btn-sm"
+                >
+                  <Menu className="size-4.5" />
+                </label>
+              </div>
+              <div className="drawer-side z-[50]">
+                <label
+                  htmlFor="demo-drawer"
+                  aria-label="close sidebar"
+                  className="drawer-overlay"
+                ></label>
+                <SideBar className=""></SideBar>
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <Link to="/">
+              <h1 className="text-xl font-bold">AftyrlifeAI</h1>
+            </Link>
+          </div>
         </div>
         <div className="inline-flex items-center gap-3">
           <ThemeToggle />
