@@ -141,14 +141,19 @@ export default function Chat() {
 
   return (
     <main>
-      <div
-        className="tooltip tooltip-bottom fixed z-10 top-20 right-5"
-        data-tip="reset"
-      >
-        <button className="shadow-lg bg-primary/80 p-3 rounded-lg text-base-200">
-          <RefreshCcw strokeWidth={3} className="size-5 stroke-text-base-200" />
-        </button>
-      </div>
+      {history.length > 0 && (
+        <div
+          className="tooltip tooltip-bottom fixed z-10 top-20 right-5"
+          data-tip="reset"
+        >
+          <button className="shadow-lg bg-primary/80 p-3 rounded-lg text-base-200">
+            <RefreshCcw
+              strokeWidth={3}
+              className="size-5 stroke-text-base-200"
+            />
+          </button>
+        </div>
+      )}
       {history.length > 0 ? (
         <div className="min-h-[calc(100dvh-95px)] max-w-5xl flex flex-col mx-auto gap-y-6">
           <div className="fixed -z-10 inset-0 flex items-center justify-center">
@@ -164,7 +169,7 @@ export default function Chat() {
       ) : (
         <div className="min-h-[calc(100dvh-95px)] flex items-center justify-center max-w-5xl text-center mx-auto -mt-6">
           <div className="flex items-center justify-center flex-col w-full gap-y-2">
-            <figure className="w-40 h-40 bg-base-content/40 flex items-center justify-center rounded-full mb-1.5">
+            <figure className="w-40 h-40 bg-base-content/15 flex items-center justify-center rounded-full mb-1.5">
               <Bot className="size-24" />
             </figure>
             <h1 className="font-extrabold text-4xl">Prompt 1.</h1>
