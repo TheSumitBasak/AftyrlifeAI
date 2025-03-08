@@ -5,7 +5,7 @@ export default function ThemeToggle() {
   const [theme, setTheme] = useState<string>("");
 
   // Themes array for easy switching
-  const themes = ["winter", "night"];
+  const themes = ["fantasy", "night"];
 
   useEffect(() => {
     // Update localStorage and html attribute when theme changes
@@ -20,7 +20,7 @@ export default function ThemeToggle() {
 
       const theme =
         globalThis?.localStorage?.getItem?.("site-theme") ||
-        (isDarkMode ? "night" : "winter");
+        (isDarkMode ? "night" : "fantasy");
       setTheme(theme);
     }
   }, [theme]);
