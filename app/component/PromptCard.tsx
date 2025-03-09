@@ -1,10 +1,11 @@
+import { Link } from "@remix-run/react";
 import { Bot, MessageCircleMore, Settings2 } from "lucide-react";
 
 export default function PromptCard({ data }: { data: any }) {
   return (
     <>
       <div className="group relative card bg-base-100 group border border-base-content/20 max-w-[304px] mx-auto">
-        <figure className="bg-base-content/40 py-6">
+        <figure className="bg-base-content/15 py-6">
           <Bot className="size-36" />
         </figure>
         <div className="card-body">
@@ -19,14 +20,14 @@ export default function PromptCard({ data }: { data: any }) {
               <div className="dark:block hidden w-12 h-12 bg-accent absolute bottom-0 left-5 blur-[70px]"></div>
             </div>
             <div className="tooltip  tooltip-bottom" data-tip="Chat">
-              <button className="btn btn-primary btn-sm btn-square">
+              <Link to="/chat" className="btn btn-primary btn-sm btn-square">
                 <MessageCircleMore className="size-4 stroke-base-100" />
-              </button>
+              </Link>
             </div>
             <div className="tooltip tooltip-bottom" data-tip="Edit">
-              <button className="btn btn-primary btn-sm btn-square">
+              <Link to="/train-prompt" className="btn btn-primary btn-sm btn-square">
                 <Settings2 className="size-4 stroke-base-100" />
-              </button>
+              </Link>
             </div>
           </div>
         </div>
