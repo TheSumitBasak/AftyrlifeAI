@@ -24,7 +24,7 @@ export default function TestPrompt() {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <div className="h-[100dvh] w-[100vw] bg-base-200 max-w-5xl relative">
+        <div className="h-[100dvh] overflow-auto w-[100vw] bg-base-200 max-w-5xl relative">
           <div className="py-2.5 sticky top-0 border-b border-base-content/40 text-lg font-semibold px-5 flex justify-between items-center">
             <span>Test prompt</span>
             <button
@@ -39,7 +39,7 @@ export default function TestPrompt() {
               <Bot className="size-30" />
             </figure>
           </div>
-          <div className="flex flex-col gap-y-6 h-full px-5">
+          <div className="flex flex-col gap-y-6 min-h-[92%] px-5">
             <Messages messages={[...history].reverse()} />
             <section className="w-full sticky bottom-5">
               <MessageBox />
