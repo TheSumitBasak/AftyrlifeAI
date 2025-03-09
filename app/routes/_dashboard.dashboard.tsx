@@ -1,3 +1,4 @@
+import { Link } from "@remix-run/react";
 import { MessageCirclePlusIcon } from "lucide-react";
 import PromptCard from "~/component/PromptCard";
 
@@ -155,14 +156,14 @@ export default function Dashboard() {
     <>
       <div className="flex justify-between items-center">
         <h1 className="text-4xl font-bold">Prompts.</h1>
-        <button className="btn btn-primary text-base-100">
+        <Link to="/train-prompt" className="btn btn-primary text-base-100">
           <MessageCirclePlusIcon /> Create Prompt
-        </button>
+        </Link>
       </div>
-          <main className="mx-auto grid 2xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-12 lg:px-15 px-5 mt-10">
-              {data.map(ele =>
-                  <PromptCard data={ ele}/>
-              )}
+      <main className="mx-auto grid 2xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-12 lg:px-15 px-5 mt-10">
+        {data.map((ele) => (
+          <PromptCard data={ele} />
+        ))}
       </main>
     </>
   );
