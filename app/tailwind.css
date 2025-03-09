@@ -4,6 +4,7 @@
 }
 @plugin "daisyui/theme" {
   name: fantasy;
+  --color-base-200: oklch(97.466% 0.011 259.822);
   --color-primary: oklch(75.351% 0.138 232.661);
   --color-primary-content: oklch(1 0 0);
   --color-base-300: oklch(98% 0.003 247.858);
