@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import MessageBox from "~/component/chatBot/MessageBox";
 import Messages from "~/component/chatBot/Messages";
 import SideBar from "~/component/trainBot/SideDrawer";
+import TestPrompt from "~/component/trainBot/TestPrompt";
+import { useTrainBotContext } from "~/context/TrainBot";
 
 const data = [
   {
@@ -134,6 +136,8 @@ const data = [
 
 
 export default function TrainPrompt() {
+  const { isOpen, setIsOpen } = useTrainBotContext();
+
   const [history, setHistory] = useState(data);
   const endRef = useRef<HTMLDivElement>(null);
 
@@ -144,6 +148,7 @@ export default function TrainPrompt() {
   return (
     <div>
       <SideBar className="fixed left-0 lg:block hidden border-r border-base-content/50" />
+      <TestPrompt/>
       <main className="lg:pl-75 p-5">
         {history.length > 0 ? (
           <div className="min-h-[calc(100dvh-95px)] max-w-5xl flex flex-col mx-auto gap-y-6">

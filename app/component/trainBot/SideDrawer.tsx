@@ -1,5 +1,6 @@
 import { BookOpenCheck, Bot, SaveAll, Settings2 } from "lucide-react";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
+import { useTrainBotContext } from "~/context/TrainBot";
 
 export default function SideBar({
   className = "",
@@ -7,7 +8,9 @@ export default function SideBar({
 }: {
   className?: string;
   children?: Readonly<ReactNode>;
-}) {
+  }) {
+  
+  const { isOpen, setIsOpen } = useTrainBotContext();
   return (
     <aside
       className={`w-70 max-w-[90vw] lg:h-[calc(100dvh-54px)] h-[100dvh] bg-base-300 px-3 py-4 ${className}`}
@@ -24,13 +27,16 @@ export default function SideBar({
           <Settings2 className="size-7" strokeWidth={1.2} />
           Edit Metadata
         </li>
-        <li className="w-full items-center flex justify-start gap-4 px-3 py-2 bg-base-200 hover:bg-base-100 cursor-pointer rounded-lg">
+        <li
+          onClick={() => setIsOpen((op:boolean) => !op)}
+          className="w-full items-center flex justify-start gap-4 px-3 py-2 bg-base-200 hover:bg-base-100 cursor-pointer rounded-lg"
+        >
           <BookOpenCheck className="size-7" strokeWidth={1.2} />
           Test Prompt
         </li>
       </ul>
       <button className="absolute bottom-4 btn btn-primary w-63 py-3">
-        <SaveAll className="mr-1"/>
+        <SaveAll className="mr-1" />
         Save Prompt
       </button>
     </aside>

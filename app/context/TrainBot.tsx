@@ -1,13 +1,15 @@
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 
-const TrainBotContext = createContext({});
+const TrainBotContext = createContext<any>({});
 
 export default function TrainBotProvider({
   children,
 }: {
   children: Readonly<ReactNode>;
-}) {
-  const value = {};
+  }) {
+  
+  const [isOpen, setIsOpen] = useState(false);
+  const value = {isOpen, setIsOpen};
   return (
     <TrainBotContext.Provider value={value}>
       {children}
