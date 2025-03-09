@@ -1,4 +1,5 @@
 import { Outlet } from "@remix-run/react";
+import Footer from "~/component/Footer";
 import Navbar from "~/component/Navbar";
 
 export default function AppLayout() {
@@ -6,6 +7,7 @@ export default function AppLayout() {
     <>
       <Navbar />
       <Outlet />
+      <Footer/>
     </>
   );
 }
