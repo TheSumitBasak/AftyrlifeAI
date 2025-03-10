@@ -1,23 +1,53 @@
 import { Link } from "@remix-run/react";
-import { LogIn } from "lucide-react";
+import { Loader, LogIn } from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useAuthContext } from "~/context/Auth";
 
 export default function Login() {
+  const { login } = useAuthContext();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = async (data: any) => {
+    setIsLoading(true);
+    const dt = await login(data);
+    if (dt) {
+      setError("password", { type: "custom", message: dt });
+      setError("email", { type: "custom", message: dt });
+    }
+    setIsLoading(false);
+  };
+
   return (
     <section>
       <h1 className="text-3xl text-center font-bold mb-2">Login.</h1>
-      <form className="grid grid-cols-1 w-full space-y-3">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="grid grid-cols-1 w-full space-y-3"
+      >
         <div>
           <label>Email:</label>
-          <label className="input !outline-none mt-0.5 w-full validator">
+          <label
+            className={`input !outline-none mt-0.5 ${
+              errors.email ? "border-error" : ""
+            }`}
+          >
             <svg
               className="h-[1em] opacity-50"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
             >
               <g
-                stroke-linejoin="round"
-                stroke-linecap="round"
-                stroke-width="2.5"
+                strokeLinejoin="round"
+                strokeLinecap="round"
+                strokeWidth="2.5"
                 fill="none"
                 stroke="currentColor"
               >
@@ -25,12 +55,31 @@ export default function Login() {
                 <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
               </g>
             </svg>
-            <input type="email" placeholder="mail@site.com" required />
+            <input
+              type="email"
+              placeholder="mail@site.com"
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: "Invalid email address",
+                },
+              })}
+            />
           </label>
+          {errors.email && (
+            <p className="text-sm text-error">
+              {String(errors?.email?.message)}
+            </p>
+          )}
         </div>
         <div>
           <label>Password:</label>
-          <label className="input !outline-none mt-0.5 validator">
+          <label
+            className={`input !outline-none mt-0.5 ${
+              errors.password ? "border-error" : ""
+            }`}
+          >
             <svg
               className="h-[1em] opacity-50"
               xmlns="http://www.w3.org/2000/svg"
@@ -49,25 +98,34 @@ export default function Login() {
             </svg>
             <input
               type="password"
-              required
               placeholder="Password"
-              minLength={8}
-              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+              {...register("password", { required: "password is required" })}
               title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
             />
           </label>
+
+          {errors.password && (
+            <p className="text-sm text-error">
+              {String(errors?.password?.message)}
+            </p>
+          )}
         </div>
         <button className="btn btn-primary text-base-200 mt-4">
-          <LogIn
-            className="tooltip size-4 stroke-base-200"
-            data-tip="Login"
-            strokeWidth={3}
-          />
-          Login
+          {isLoading ? (
+            <Loader className="size-5 stroke-base-200 spin" />
+          ) : (
+            <>
+              <LogIn className="size-4 stroke-base-200" strokeWidth={3} />
+              Login
+            </>
+          )}
         </button>
       </form>
       <p className="text-center mt-2">
-        Don't have an account? <Link to="/signup" className="link link-primary">Sign up!</Link>
+        Don't have an account?{" "}
+        <Link to="/signup" className="link link-primary">
+          Sign up!
+        </Link>
       </p>
     </section>
   );
