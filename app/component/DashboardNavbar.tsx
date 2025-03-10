@@ -18,7 +18,7 @@ export default function DashboardNavbar() {
         </div>
         <div className="inline-flex items-center gap-3">
           <ThemeToggle />
-          {globalThis?.localStorage?.getItem("token") ? (
+          {globalThis?.document?.cookie?.includes?.("token") ? (
             <div className="dropdown dropdown-end">
               <div
                 tabIndex={0}

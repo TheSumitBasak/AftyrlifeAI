@@ -83,22 +83,29 @@ export default function Navbar() {
           </ul>
         </div>
         <div className="inline-flex items-center gap-3">
-          <ThemeToggle/>
-          <Link className="btn btn-primary btn-sm btn-square" to="/login">
-            {globalThis?.localStorage?.getItem("token") ? (
-              <LayoutDashboardIcon
-                className="tooltip size-4 stroke-base-200"
-                data-tip="Dashboard"
-                strokeWidth={1.5}
-              />
-            ) : (
-              <LogIn
-                className="tooltip size-4 stroke-base-200"
-                data-tip="Login"
-                strokeWidth={3}
-              />
-            )}
-          </Link>
+          <ThemeToggle />
+          {globalThis?.document?.cookie?.includes?.("token") ? (
+            <div className="tooltip tooltip-bottom" data-tip="Dashboard">
+              <Link
+                className="btn btn-primary btn-sm btn-square"
+                to="/dashboard"
+              >
+                <LayoutDashboardIcon
+                  className="tooltip size-4 stroke-base-200"
+                  strokeWidth={2.1}
+                />
+              </Link>
+            </div>
+          ) : (
+            <div className="tooltip tooltip-bottom" data-tip="Login">
+              <Link className="btn btn-primary btn-sm btn-square" to="/login">
+                <LogIn
+                  className="tooltip size-4 stroke-base-200"
+                  strokeWidth={3}
+                />
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </div>
