@@ -9,6 +9,9 @@ import type { LinksFunction } from "@remix-run/node";
 
 import "./tailwind.css";
 import { useEffect, useState } from "react";
+import { NotificationsProvider } from "reapop";
+import NotificationWrapper from "./component/Notification";
+import { CookiesProvider } from "react-cookie";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -57,5 +60,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <>
+      <CookiesProvider defaultSetOptions={{ path: "/" }}>
+        <NotificationsProvider>
+          <NotificationWrapper />
+          <Outlet />
+        </NotificationsProvider>
+      </CookiesProvider>
+    </>
+  );
 }
