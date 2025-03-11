@@ -4,13 +4,13 @@ import { Bot, MessageCircleMore, Settings2 } from "lucide-react";
 export default function PromptCard({ data }: { data: any }) {
   return (
     <>
-      <div className="group relative card bg-base-100 group border border-base-content/20 max-w-[304px] mx-auto">
+      <div className="group relative card bg-base-100 group border border-base-content/20 max-w-[304px] w-full mx-auto">
         <figure className="bg-base-content/15 py-6">
           <Bot className="size-36" />
         </figure>
         <div className="card-body">
           <div className="card-title flex justify-between">
-            <h2 className="font-semibold truncate">
+            <h2 className="text-2xl font-semibold truncate">
               {data?.name || "Not Available"}
             </h2>
           </div>
