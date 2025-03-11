@@ -2,6 +2,7 @@ import { Link } from "@remix-run/react";
 import { CircleUser, LogIn, Menu } from "lucide-react";
 import ThemeToggle from "../ThemeToggle";
 import SideBar from "./SideDrawer";
+import Profile from "../Profile";
 
 export default function DashboardTrainNavbar() {
   return (
@@ -47,30 +48,7 @@ export default function DashboardTrainNavbar() {
         <div className="inline-flex items-center gap-3">
           <ThemeToggle />
           {globalThis?.document?.cookie?.includes?.("token") ? (
-            <div className="dropdown dropdown-end">
-              <div
-                tabIndex={0}
-                className="btn !bg-transparent btn-sm border-0 btn-square"
-              >
-                <CircleUser
-                  className="tooltip size-6 stroke-base-content"
-                  data-tip="Dashboard"
-                  strokeWidth={1.5}
-                />{" "}
-              </div>
-              <ul
-                data-theme="fantasy"
-                tabIndex={0}
-                className="menu dropdown-content bg-base-100 rounded-lg z-1 w-52 p-2 shadow-sm"
-              >
-                <li>
-                  <a>Item 1</a>
-                </li>
-                <li>
-                  <a>Item 2</a>
-                </li>
-              </ul>
-            </div>
+            <Profile/>
           ) : (
             <Link className="btn btn-primary btn-sm btn-square" to="/login">
               <LogIn
