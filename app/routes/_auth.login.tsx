@@ -20,7 +20,7 @@ export default function Login() {
     const dt = await login(data);
     if (dt) {
       setError("password", { type: "custom", message: dt });
-      setError("email", { type: "custom", message: dt });
+      setError("email", { type: "custom", message: "" });
     }
     setIsLoading(false);
   };
