@@ -20,12 +20,18 @@ export default function PromptCard({ data }: { data: any }) {
               <div className="dark:block hidden w-12 h-12 bg-accent absolute bottom-0 left-5 blur-[70px]"></div>
             </div>
             <div className="tooltip  tooltip-bottom" data-tip="Chat">
-              <Link to="/chat" className="btn btn-primary btn-sm btn-square">
+              <Link
+                to={`/chat/${data._id}`}
+                className="btn btn-primary btn-sm btn-square"
+              >
                 <MessageCircleMore className="size-4 stroke-base-100" />
               </Link>
             </div>
             <div className="tooltip tooltip-bottom" data-tip="Edit">
-              <Link to="/train-prompt" className="btn btn-primary btn-sm btn-square">
+              <Link
+                to="/train-prompt"
+                className="btn btn-primary btn-sm btn-square"
+              >
                 <Settings2 className="size-4 stroke-base-100" />
               </Link>
             </div>

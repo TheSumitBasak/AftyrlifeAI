@@ -1,7 +1,12 @@
+import { json, LoaderFunctionArgs } from "@remix-run/node";
+import { redirect, useLoaderData, useNavigate } from "@remix-run/react";
 import { Bot, RefreshCcw, RotateCcw } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import MessageBox from "~/component/chatBot/MessageBox";
 import Messages from "~/component/chatBot/Messages";
+import { useDashboardContext } from "~/context/Dashboard";
+import { Message } from "~/types/message";
+import { getRequest } from "~/utility/api";
 
 const data = [
   {
@@ -131,13 +136,104 @@ const data = [
   },
 ];
 
+export async function loader({ params, request }: LoaderFunctionArgs) {
+  try {
+    const cookieHeader = request.headers.get("Cookie");
+    if (!cookieHeader) {
+      return false;
+    }
+
+    const token = Object.fromEntries(
+      cookieHeader
+        .split("; ")
+        .map((cookie) => cookie.split("="))
+        .map(([key, value]) => [key, decodeURIComponent(value)])
+    ).token;
+
+    if (!token) {
+      return "";
+    }
+
+    const res = await getRequest(`/user-prompt/${params.chatId}`, token);
+    if (!res?.data) return false;
+
+    return Response.json(res?.data);
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+  // return json(await fakeDb.invoices.findAll());
+}
+
 export default function Chat() {
-  const [history, setHistory] = useState(data);
+  const { getChatMessages, sendChatMessage } = useDashboardContext();
+  const res = useLoaderData<typeof loader>();
+
+  const [history, setHistory] = useState<Message[]>([]);
   const endRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [currentPage, setcurrentPage] = useState(1);
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [isMsgLoading, setMsgIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (!res.data) {
+      navigate("/dashboard");
+    } else {
+      getMessages();
+    }
+  }, [res.data]);
 
   useEffect(() => {
     globalThis.scrollTo({ top: globalThis.document.body.scrollHeight });
   }, []);
+
+  const getMessages = async (page = 1) => {
+    const messageRes = await getChatMessages({
+      page,
+      promptId: res?.data?._id,
+    });
+    if (messageRes) {
+      setTotalPages(messageRes?.metadata?.totalPage || 1);
+      setTotalRecords(messageRes?.metadata?.totalRecords || 0);
+      setcurrentPage(page);
+      if (page == 1) {
+        setHistory(messageRes?.data || []);
+      } else {
+        setHistory((pr) => {
+          const newMessages = messageRes?.data || [];
+          const uniqueMessages = newMessages.filter(
+            (msg: Message) =>
+              !pr.some((existingMsg) => existingMsg.message === msg.message)
+          );
+          return [...pr, ...uniqueMessages];
+        });
+      }
+    }
+    setIsLoading(false);
+  };
+
+  const onSubmit = async (text: string) => {
+    setMsgIsLoading(true);
+    setHistory((pr) => [
+      ...pr,
+      { role: "user", message: text, _id: "Demo", createdAt: "" },
+    ]);
+    const msgRes = await sendChatMessage({
+      message: text,
+      promptId: res?.data?._id,
+    });
+    if (msgRes)
+      setHistory((pr) => [
+        ...pr,
+        { role: "model", message: msgRes, _id: "Demo", createdAt: "" },
+      ]);
+    setMsgIsLoading(false);
+  };
 
   return (
     <main>
@@ -161,7 +257,12 @@ export default function Chat() {
               <Bot className="size-30" />
             </figure>
           </div>
-          <Messages messages={[...history].reverse()} />
+          <Messages
+            hasMore={currentPage != totalPages}
+            messages={[...history].reverse()}
+            next={async () => getMessages(currentPage + 1)}
+            prompt={res.data}
+          />
           <section className="w-full sticky bottom-5">
             <MessageBox />
           </section>
@@ -172,15 +273,10 @@ export default function Chat() {
             <figure className="w-40 h-40 bg-base-content/15 flex items-center justify-center rounded-full mb-1.5">
               <Bot className="size-24" />
             </figure>
-            <h1 className="font-extrabold text-4xl">Prompt 1.</h1>
-            <p className="max-w-[600px]">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore
-              quas aperiam dolor, tenetur modi sed aut natus sit itaque deserunt
-              perferendis, molestiae voluptatum necessitatibus nisi, magni
-              soluta explicabo. Ipsa, at!
-            </p>
+            <h1 className="font-extrabold text-4xl">{res?.data?.name}</h1>
+            <p className="max-w-[600px]">{res?.data?.description}</p>
             <section className="w-full md:mt-10 mt-7">
-              <MessageBox />
+              <MessageBox onSubmit={onSubmit} />
             </section>
           </div>
         </div>
