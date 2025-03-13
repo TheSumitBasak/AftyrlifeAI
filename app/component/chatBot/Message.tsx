@@ -1,4 +1,5 @@
 import { Bot, User } from "lucide-react";
+import Markdown from "react-markdown";
 import { useDashboardContext } from "~/context/Dashboard";
 import { Prompt } from "~/types/prompt";
 
@@ -40,7 +41,9 @@ export default function Message({
             </div>
           </div>
           <div className="chat-header mb-0.5">{prompt?.name || "Prompt 1"}</div>
-          <div className="chat-bubble">{message.message}</div>
+          <div className="chat-bubble prose">
+            <Markdown>{message.message}</Markdown>
+          </div>
           <div className="chat-footer opacity-50">
             {getDateString(message?.createdAt)}
           </div>
@@ -52,8 +55,10 @@ export default function Message({
               <User className="size-7 mx-auto" />
             </div>
           </div>
-            <div className="chat-header mb-0.5">{profile?.firstName || "" }</div>
-          <div className="chat-bubble">{message.message}</div>
+          <div className="chat-header mb-0.5">{profile?.firstName || ""}</div>
+          <div className="chat-bubble prose">
+            <Markdown>{message.message}</Markdown>
+          </div>
           <div className="chat-footer opacity-50">
             {getDateString(message?.createdAt)}
           </div>

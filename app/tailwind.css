@@ -8,7 +8,6 @@
   --color-primary: oklch(75.351% 0.138 232.661);
   --color-primary-content: oklch(1 0 0);
   --color-base-300: oklch(98% 0.003 247.858);
-
 }
 
 .nav-design-container {
@@ -62,14 +61,57 @@
   animation-name: spin;
   animation-duration: 2000ms;
   animation-iteration-count: infinite;
-  animation-timing-function: linear; 
+  animation-timing-function: linear;
 }
 
 @keyframes spin {
-    from {
-        transform:rotate(0deg);
-    }
-    to {
-        transform:rotate(360deg);
-    }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-wave {
+  width: 100px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.loading-bar {
+  width: 5px;
+  height: 7px;
+  margin: 0 3px;
+  border-radius: 5px;
+  animation: loading-wave-animation 1s ease-in-out infinite;
+  @apply bg-primary/70;
+}
+
+.loading-bar:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.loading-bar:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.loading-bar:nth-child(4) {
+  animation-delay: 0.6s;
+}
+
+@keyframes loading-wave-animation {
+  0% {
+    height: 10px;
+  }
+
+  50% {
+    height: 20px;
+  }
+
+  100% {
+    height: 10px;
+  }
 }

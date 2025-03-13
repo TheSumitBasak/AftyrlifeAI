@@ -12,6 +12,7 @@ export default function MessageBox({
 }: {
   onSubmit?: (text: string) => Promise<void>;
 }) {
+  const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
 
   const totalLines = useMemo(
@@ -19,18 +20,29 @@ export default function MessageBox({
     [message]
   );
 
-  const onKeyDown = useCallback((ev: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (!ev.shiftKey && ev.key === "Enter") {
-      ev.preventDefault();
-      onSubmit(ev.currentTarget.value);
-    }
-  }, []);
+  const onKeyDown = useCallback(
+    async (ev: KeyboardEvent<HTMLTextAreaElement>) => {
+      if (!ev.shiftKey && ev.key === "Enter") {
+        debugger;
+        ev.preventDefault();
+        const msg = ev.currentTarget.value;
+        ev.currentTarget.value = "";
+        setIsLoading(true);
+        await onSubmit(msg);
+        setIsLoading(false);
+      }
+    },
+    []
+  );
 
   return (
     <form
-      onSubmit={(ev) => {
+      onSubmit={async (ev) => {
         ev.preventDefault();
-        onSubmit(message);
+        setMessage("");
+        setIsLoading(true);
+        await onSubmit(message);
+        setIsLoading(false);
       }}
       className="bg-base-300 rounded-xl w-full pl-5 pr-2 py-2 pt-3 flex justify-center items-center"
     >
@@ -41,6 +53,7 @@ export default function MessageBox({
         onChange={(ev) => setMessage(ev.target.value)}
         onKeyDown={onKeyDown}
         rows={1}
+        disabled={isLoading}
         required
       />
       <button className="p-2 btn btn-ghost rounded-xl">

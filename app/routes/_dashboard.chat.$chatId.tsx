@@ -180,6 +180,8 @@ export default function Chat() {
   const [isLoading, setIsLoading] = useState(true);
   const [isMsgLoading, setMsgIsLoading] = useState(false);
 
+  const [isNewMsg, setIsNewMsg] = useState(true);
+
   useEffect(() => {
     if (!res.data) {
       navigate("/dashboard");
@@ -189,10 +191,14 @@ export default function Chat() {
   }, [res.data]);
 
   useEffect(() => {
-    globalThis.scrollTo({ top: globalThis.document.body.scrollHeight });
-  }, []);
+    if (isNewMsg) {
+      globalThis.scrollTo({ top: globalThis.document.body.scrollHeight });
+      setIsNewMsg(false);
+    }
+  }, [history]);
 
   const getMessages = async (page = 1) => {
+    const prevScrollHeight = document.body.scrollHeight;
     const messageRes = await getChatMessages({
       page,
       promptId: res?.data?._id,
@@ -202,6 +208,7 @@ export default function Chat() {
       setTotalRecords(messageRes?.metadata?.totalRecords || 0);
       setcurrentPage(page);
       if (page == 1) {
+        setIsNewMsg(true);
         setHistory(messageRes?.data || []);
       } else {
         setHistory((pr) => {
@@ -212,6 +219,11 @@ export default function Chat() {
           );
           return [...pr, ...uniqueMessages];
         });
+        const newScrollHeight = document.body.scrollHeight;
+        window.scrollTo(
+          0,
+          window.scrollY + (newScrollHeight - prevScrollHeight)
+        );
       }
     }
     setIsLoading(false);
@@ -219,19 +231,22 @@ export default function Chat() {
 
   const onSubmit = async (text: string) => {
     setMsgIsLoading(true);
+    setIsNewMsg(true);
     setHistory((pr) => [
-      ...pr,
       { role: "user", message: text, _id: "Demo", createdAt: "" },
+      ...pr,
     ]);
     const msgRes = await sendChatMessage({
       message: text,
       promptId: res?.data?._id,
     });
-    if (msgRes)
+    if (msgRes?.message) {
+      setIsNewMsg(true);
       setHistory((pr) => [
+        { role: "model", message: msgRes?.message, _id: "Demo", createdAt: "" },
         ...pr,
-        { role: "model", message: msgRes, _id: "Demo", createdAt: "" },
       ]);
+    }
     setMsgIsLoading(false);
   };
 
@@ -259,12 +274,13 @@ export default function Chat() {
           </div>
           <Messages
             hasMore={currentPage != totalPages}
-            messages={[...history].reverse()}
+            messages={history}
             next={async () => getMessages(currentPage + 1)}
             prompt={res.data}
+            isLoading={isMsgLoading}
           />
           <section className="w-full sticky bottom-5">
-            <MessageBox />
+            <MessageBox onSubmit={onSubmit} />
           </section>
         </div>
       ) : (

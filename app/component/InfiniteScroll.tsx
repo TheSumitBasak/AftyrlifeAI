@@ -30,7 +30,9 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
           setIsLoading(true);
-          next().finally(() => setIsLoading(false));
+          next().finally(() => {
+            setIsLoading(false)
+          });
         }
       });
       if (node) observer.current.observe(node);
@@ -42,7 +44,7 @@ const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
     <div className={className}>
       {children}
       <div ref={lastElementRef}></div>
-      {hasMore && loader}
+      {isLoading && loader}
       {!hasMore && endMessage}
     </div>
   );
