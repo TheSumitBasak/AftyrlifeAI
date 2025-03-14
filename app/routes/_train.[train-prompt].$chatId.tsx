@@ -1,10 +1,15 @@
+import { LoaderFunctionArgs } from "@remix-run/node";
 import { Bot } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { useLoaderData, useNavigate } from "react-router";
 import MessageBox from "~/component/chatBot/MessageBox";
 import Messages from "~/component/chatBot/Messages";
 import SideBar from "~/component/trainBot/SideDrawer";
 import TestPrompt from "~/component/trainBot/TestPrompt";
+import { useDashboardContext } from "~/context/Dashboard";
 import { useTrainBotContext } from "~/context/TrainBot";
+import { Message } from "~/types/message";
+import { getRequest } from "~/utility/api";
 
 const data = [
   {
@@ -134,21 +139,126 @@ const data = [
   },
 ];
 
+export async function loader({ params, request }: LoaderFunctionArgs) {
+  try {
+    const cookieHeader = request.headers.get("Cookie");
+    if (!cookieHeader) {
+      return false;
+    }
+
+    const token = Object.fromEntries(
+      cookieHeader
+        .split("; ")
+        .map((cookie) => cookie.split("="))
+        .map(([key, value]) => [key, decodeURIComponent(value)])
+    ).token;
+
+    if (!token) {
+      return "";
+    }
+
+    const res = await getRequest(`/user-prompt/${params.chatId}`, token);
+    if (!res?.data) return false;
+
+    return Response.json(res?.data);
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+}
 
 export default function TrainPrompt() {
-  const { isOpen, setIsOpen } = useTrainBotContext();
+  const { getPromptMessages, sendPromptMessage, resetChatMessage, setPrompt } =
+    useDashboardContext();
 
-  const [history, setHistory] = useState(data);
+  const res: any = useLoaderData();
+
+  const [history, setHistory] = useState<Message[]>([]);
   const endRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [currentPage, setcurrentPage] = useState(1);
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [isMsgLoading, setMsgIsLoading] = useState(false);
+
+  const [isNewMsg, setIsNewMsg] = useState(true);
 
   useEffect(() => {
-    globalThis.scrollTo({ top: globalThis.document.body.scrollHeight });
-  }, []);
+    if (!res.data) {
+      navigate("/dashboard");
+    } else {
+      getMessages();
+      setPrompt(res.data);
+    }
+  }, [res.data]);
+
+  useEffect(() => {
+    if (isNewMsg) {
+      globalThis.scrollTo({ top: globalThis.document.body.scrollHeight });
+      setIsNewMsg(false);
+    }
+  }, [history]);
+
+  const getMessages = async (page = 1) => {
+    const prevScrollHeight = document.body.scrollHeight;
+    const messageRes = await getPromptMessages({
+      page,
+      promptId: res?.data?._id,
+    });
+    if (messageRes) {
+      setTotalPages(messageRes?.metadata?.totalPage || 1);
+      setTotalRecords(messageRes?.metadata?.totalRecords || 0);
+      setcurrentPage(page);
+      if (page == 1) {
+        setIsNewMsg(true);
+        setHistory(messageRes?.data || []);
+      } else {
+        setHistory((pr) => {
+          const newMessages = messageRes?.data || [];
+          const uniqueMessages = newMessages.filter(
+            (msg: Message) =>
+              !pr.some((existingMsg) => existingMsg.message === msg.message)
+          );
+          return [...pr, ...uniqueMessages];
+        });
+        const newScrollHeight = document.body.scrollHeight;
+        window.scrollTo(
+          0,
+          window.scrollY + (newScrollHeight - prevScrollHeight)
+        );
+      }
+    }
+    setIsLoading(false);
+  };
+
+  const onSubmit = async (text: string) => {
+    setMsgIsLoading(true);
+    setIsNewMsg(true);
+    setHistory((pr) => [
+      { role: "user", message: text, _id: "Demo", createdAt: "" },
+      ...pr,
+    ]);
+    const msgRes = await sendPromptMessage({
+      message: text,
+      promptId: res?.data?._id,
+    });
+    if (msgRes?.message) {
+      setIsNewMsg(true);
+      setHistory((pr) => [
+        { role: "model", message: msgRes?.message, _id: "Demo", createdAt: "" },
+        ...pr,
+      ]);
+    }
+    setMsgIsLoading(false);
+  };
 
   return (
     <div>
       <SideBar className="fixed left-0 lg:block hidden border-r border-base-content/50" />
-      <TestPrompt/>
+      <TestPrompt />
       <main className="lg:pl-75 p-5">
         {history.length > 0 ? (
           <div className="min-h-[calc(100dvh-95px)] max-w-5xl flex flex-col mx-auto gap-y-6">
@@ -157,9 +267,15 @@ export default function TrainPrompt() {
                 <Bot className="size-30" />
               </figure>
             </div>
-            <Messages messages={[...history].reverse()} />
+            <Messages
+              hasMore={currentPage != totalPages}
+              messages={history}
+              next={async () => getMessages(currentPage + 1)}
+              prompt={res.data}
+              isLoading={isMsgLoading}
+            />
             <section className="w-full sticky bottom-5">
-              <MessageBox />
+              <MessageBox onSubmit={onSubmit} />
             </section>
           </div>
         ) : (
@@ -168,15 +284,10 @@ export default function TrainPrompt() {
               <figure className="w-40 h-40 bg-base-content/40 flex items-center justify-center rounded-full mb-1.5">
                 <Bot className="size-24" />
               </figure>
-              <h1 className="font-extrabold text-4xl">Prompt 1.</h1>
-              <p className="max-w-[600px]">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore
-                quas aperiam dolor, tenetur modi sed aut natus sit itaque
-                deserunt perferendis, molestiae voluptatum necessitatibus nisi,
-                magni soluta explicabo. Ipsa, at!
-              </p>
+              <h1 className="font-extrabold text-4xl">{res?.data?.name}</h1>
+              <p className="max-w-[600px]">{res?.data?.description}</p>
               <section className="w-full md:mt-10 mt-7">
-                <MessageBox />
+                <MessageBox onSubmit={onSubmit} />
               </section>
             </div>
           </div>
