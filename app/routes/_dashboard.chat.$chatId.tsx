@@ -166,7 +166,8 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 }
 
 export default function Chat() {
-  const { getChatMessages, sendChatMessage } = useDashboardContext();
+  const { getChatMessages, sendChatMessage, resetChatMessage } =
+    useDashboardContext();
   const res = useLoaderData<typeof loader>();
 
   const [history, setHistory] = useState<Message[]>([]);
@@ -257,7 +258,10 @@ export default function Chat() {
           className="tooltip tooltip-bottom fixed z-10 top-20 right-5"
           data-tip="reset"
         >
-          <button className="shadow-lg bg-primary/80 p-3 rounded-lg text-base-200">
+          <button
+            onClick={() => resetChatMessage({promptId: res.data._id})}
+            className="shadow-lg bg-primary/80 p-3 rounded-lg text-base-200 cursor-pointer"
+          >
             <RefreshCcw
               strokeWidth={3}
               className="size-5 stroke-text-base-200"

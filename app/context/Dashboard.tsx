@@ -8,7 +8,7 @@ import {
 } from "react";
 import { useCookies } from "react-cookie";
 import { useNotifications } from "reapop";
-import { getRequest, postRequest } from "~/utility/api";
+import { deleteRequest, getRequest, postRequest } from "~/utility/api";
 
 const DashboardContext = createContext<any>({});
 
@@ -144,12 +144,29 @@ export default function DashboardProvider({
     }
   };
 
+  const resetChatMessage = async ({ promptId }: { promptId: string }) => {
+    try {
+      if (!cookies.token) return [];
+      const res = await deleteRequest(`/chat/${promptId}`, cookies?.token);
+      if (!res) {
+        notify("Internal server error", "error");
+        return false;
+      }
+      globalThis.window.location.reload();
+      return true;
+    } catch (err: any) {
+      notify(err?.response?.data?.message || err.message, "error");
+      return false;
+    }
+  };
+
   const value = {
     getPrompts,
     createPrompt,
     getChatMessages,
     profile,
     sendChatMessage,
+    resetChatMessage,
   };
   return (
     <DashboardContext.Provider value={value}>
