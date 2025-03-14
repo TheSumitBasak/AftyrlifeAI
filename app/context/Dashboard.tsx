@@ -8,6 +8,7 @@ import {
 } from "react";
 import { useCookies } from "react-cookie";
 import { useNotifications } from "reapop";
+import { Prompt } from "~/types/prompt";
 import { deleteRequest, getRequest, postRequest } from "~/utility/api";
 
 const DashboardContext = createContext<any>({});
@@ -21,6 +22,7 @@ export default function DashboardProvider({
   const navigate = useNavigate();
 
   const [profile, setProfile] = useState<any>({});
+  const [prompt, setPrompt] = useState<Prompt | null>(null);
   const { notify } = useNotifications();
 
   useEffect(() => {
@@ -86,7 +88,7 @@ export default function DashboardProvider({
         return "Internal server error";
       }
       notify("Prompt created successfully", "success");
-      navigate("/train-prompt");
+      navigate(`/train-prompt/${createRes?.data?.data?._id}`);
     } catch (err: any) {
       return err?.response?.data?.message || err.message;
     }
@@ -160,6 +162,58 @@ export default function DashboardProvider({
     }
   };
 
+  const getPromptMessages = async ({
+    promptId,
+    page = 1,
+  }: {
+    promptId: string;
+    page: number;
+  }) => {
+    try {
+      if (!cookies.token) return [];
+      const res = await getRequest(
+        `/user-prompt/prompt-chat/${promptId}?page=${page}`,
+        cookies?.token
+      );
+      if (!res) {
+        notify("Internal server error", "error");
+        return [];
+      }
+      return res.data;
+    } catch (err: any) {
+      notify(err?.response?.data?.message || err.message, "error");
+      return [];
+    }
+  };
+
+  const sendPromptMessage = async ({
+    promptId,
+    message,
+  }: {
+    promptId: string;
+    message: string;
+  }) => {
+    try {
+      if (!cookies.token) return;
+      const res = await postRequest(
+        `/user-prompt/generate-prompt/${promptId}`,
+        { message },
+        cookies.token
+      );
+      if (!res) {
+        notify("Internal server error", "error");
+        return false;
+      }
+      return res.data;
+    } catch (err: any) {
+      console.log(err);
+      notify(
+        err?.response?.data?.message || err.message || "Internal server error",
+        "error"
+      );
+    }
+  };
+
   const value = {
     getPrompts,
     createPrompt,
@@ -167,6 +221,10 @@ export default function DashboardProvider({
     profile,
     sendChatMessage,
     resetChatMessage,
+    prompt,
+    setPrompt,
+    getPromptMessages,
+    sendPromptMessage,
   };
   return (
     <DashboardContext.Provider value={value}>

@@ -29,7 +29,7 @@ export default function PromptCard({ data }: { data: any }) {
             </div>
             <div className="tooltip tooltip-bottom" data-tip="Edit">
               <Link
-                to="/train-prompt"
+                to={`/train-prompt/${data._id}`}
                 className="btn btn-primary btn-sm btn-square"
               >
                 <Settings2 className="size-4 stroke-base-100" />

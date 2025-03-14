@@ -1,5 +1,6 @@
 import { BookOpenCheck, Bot, SaveAll, Settings2 } from "lucide-react";
 import { ReactNode, useState } from "react";
+import { useDashboardContext } from "~/context/Dashboard";
 import { useTrainBotContext } from "~/context/TrainBot";
 
 export default function SideBar({
@@ -8,8 +9,8 @@ export default function SideBar({
 }: {
   className?: string;
   children?: Readonly<ReactNode>;
-  }) {
-  
+}) {
+  const { prompt } = useDashboardContext();
   const { isOpen, setIsOpen } = useTrainBotContext();
   return (
     <aside
@@ -20,7 +21,7 @@ export default function SideBar({
         <figure className="w-20 h-20 bg-base-content/15 flex items-center justify-center rounded-full mb-1.5">
           <Bot className="size-12" />
         </figure>
-        <h3 className="text-xl font-bold">Prompt 1.</h3>
+        <h3 className="text-xl font-bold">{prompt?.name || "Prompt 1."}</h3>
       </div>
       <ul className="space-y-3 mt-5 font-[350]">
         <li className="w-full items-center flex justify-start gap-4 px-3 py-2 bg-base-200 hover:bg-base-100 cursor-pointer rounded-lg">
@@ -28,7 +29,7 @@ export default function SideBar({
           Edit Metadata
         </li>
         <li
-          onClick={() => setIsOpen((op:boolean) => !op)}
+          onClick={() => setIsOpen((op: boolean) => !op)}
           className="w-full items-center flex justify-start gap-4 px-3 py-2 bg-base-200 hover:bg-base-100 cursor-pointer rounded-lg"
         >
           <BookOpenCheck className="size-7" strokeWidth={1.2} />

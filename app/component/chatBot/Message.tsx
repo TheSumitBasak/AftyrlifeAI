@@ -42,7 +42,7 @@ export default function Message({
           </div>
           <div className="chat-header mb-0.5">{prompt?.name || "Prompt 1"}</div>
           <div className="chat-bubble prose">
-            <Markdown>{message.message}</Markdown>
+            <Markdown>{message.message.replace(/\n/g, "  \n")}</Markdown>
           </div>
           <div className="chat-footer opacity-50">
             {getDateString(message?.createdAt)}
@@ -57,7 +57,7 @@ export default function Message({
           </div>
           <div className="chat-header mb-0.5">{profile?.firstName || ""}</div>
           <div className="chat-bubble prose">
-            <Markdown>{message.message}</Markdown>
+            <Markdown>{message.message.replace(/\n/g, "  \n")}</Markdown>
           </div>
           <div className="chat-footer opacity-50">
             {getDateString(message?.createdAt)}
