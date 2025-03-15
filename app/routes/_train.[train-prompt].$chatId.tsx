@@ -1,7 +1,7 @@
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { Bot } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { useLoaderData, useNavigate } from "react-router";
+import { useBlocker, useLoaderData, useNavigate } from "react-router";
 import MessageBox from "~/component/chatBot/MessageBox";
 import Messages from "~/component/chatBot/Messages";
 import SideBar from "~/component/trainBot/SideDrawer";
@@ -168,7 +168,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 }
 
 export default function TrainPrompt() {
-  const { getPromptMessages, sendPromptMessage, resetChatMessage, setPrompt } =
+  const { getPromptMessages, sendPromptMessage, setIsSaved, setPrompt } =
     useDashboardContext();
 
   const res: any = useLoaderData();
@@ -193,6 +193,7 @@ export default function TrainPrompt() {
       getMessages();
       setPrompt(res.data);
     }
+    setIsSaved(true);
   }, [res.data]);
 
   useEffect(() => {
@@ -237,6 +238,7 @@ export default function TrainPrompt() {
   const onSubmit = async (text: string) => {
     setMsgIsLoading(true);
     setIsNewMsg(true);
+    setIsSaved(false);
     setHistory((pr) => [
       { role: "user", message: text, _id: "Demo", createdAt: "" },
       ...pr,
