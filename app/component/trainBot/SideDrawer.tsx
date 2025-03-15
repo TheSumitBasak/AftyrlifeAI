@@ -1,4 +1,5 @@
-import { BookOpenCheck, Bot, SaveAll, Settings2 } from "lucide-react";
+import { useParams } from "@remix-run/react";
+import { BookOpenCheck, Bot, Loader, SaveAll, Settings2 } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { useDashboardContext } from "~/context/Dashboard";
 import { useTrainBotContext } from "~/context/TrainBot";
@@ -10,8 +11,18 @@ export default function SideBar({
   className?: string;
   children?: Readonly<ReactNode>;
 }) {
-  const { prompt } = useDashboardContext();
+  const { prompt, savePromptMessage } = useDashboardContext();
   const { isOpen, setIsOpen } = useTrainBotContext();
+
+  const params = useParams();
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const onSubmit = async () => {
+    setIsLoading(true);
+    await savePromptMessage({ promptId: params.chatId });
+    setIsLoading(false);
+  };
   return (
     <aside
       className={`w-70 max-w-[90vw] lg:h-[calc(100dvh-54px)] h-[100dvh] bg-base-300 px-3 py-4 ${className}`}
@@ -36,9 +47,18 @@ export default function SideBar({
           Test Prompt
         </li>
       </ul>
-      <button className="absolute bottom-4 btn btn-primary w-63 py-3">
-        <SaveAll className="mr-1" />
-        Save Prompt
+      <button
+        onClick={onSubmit}
+        className="absolute bottom-4 btn btn-primary w-63 py-3"
+      >
+        {isLoading ? (
+          <Loader className="size-5 stroke-base-200 spin" />
+        ) : (
+          <>
+            <SaveAll className="mr-1" />
+            Save Prompt
+          </>
+        )}
       </button>
     </aside>
   );

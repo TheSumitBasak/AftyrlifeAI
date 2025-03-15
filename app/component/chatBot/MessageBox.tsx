@@ -23,7 +23,6 @@ export default function MessageBox({
   const onKeyDown = useCallback(
     async (ev: KeyboardEvent<HTMLTextAreaElement>) => {
       if (!ev.shiftKey && ev.key === "Enter") {
-        debugger;
         ev.preventDefault();
         const msg = ev.currentTarget.value;
         ev.currentTarget.value = "";
