@@ -1,4 +1,4 @@
-import { useNavigate } from "@remix-run/react";
+import { useBlocker, useNavigate } from "@remix-run/react";
 import {
   createContext,
   ReactNode,
@@ -23,7 +23,19 @@ export default function DashboardProvider({
 
   const [profile, setProfile] = useState<any>({});
   const [prompt, setPrompt] = useState<Prompt | null>(null);
+  const [session, setSession] = useState("");
   const { notify } = useNotifications();
+
+  const [isSaved, setIsSaved] = useState(true);
+
+  const blocker = useBlocker(({ currentLocation, nextLocation }) => {
+    return (
+      !isSaved &&
+      globalThis.confirm(
+        "If you leave this page before saving, your data will be lost.\nAre you sure??"
+      ) == false
+    );
+  });
 
   useEffect(() => {
     if (!cookies.token) {
@@ -172,7 +184,9 @@ export default function DashboardProvider({
     try {
       if (!cookies.token) return [];
       const res = await getRequest(
-        `/user-prompt/prompt-chat/${promptId}?page=${page}`,
+        `/user-prompt/prompt-chat/${promptId}?page=${page}${
+          session ? "&session=" + session : ""
+        }`,
         cookies?.token
       );
       if (!res) {
@@ -195,15 +209,20 @@ export default function DashboardProvider({
   }) => {
     try {
       if (!cookies.token) return;
+      const dt: any = {
+        message,
+      };
+      if (session) dt.session = session;
       const res = await postRequest(
         `/user-prompt/generate-prompt/${promptId}`,
-        { message },
+        dt,
         cookies.token
       );
       if (!res) {
         notify("Internal server error", "error");
         return false;
       }
+      if ((res?.data as any)?.session) setSession((res?.data as any)?.session);
       return res.data;
     } catch (err: any) {
       console.log(err);
@@ -211,6 +230,31 @@ export default function DashboardProvider({
         err?.response?.data?.message || err.message || "Internal server error",
         "error"
       );
+    }
+  };
+
+  const savePromptMessage = async ({ promptId }: { promptId: string }) => {
+    try {
+      if (!cookies.token) return;
+      if (!session) {
+        notify("Prompt already saved!", "info");
+        return;
+      }
+      const res = await postRequest(
+        `/user-prompt/save-prompt/${promptId}`,
+        { session },
+        cookies?.token
+      );
+      if (!res) {
+        notify("Internal server error", "error");
+        return false;
+      }
+      navigate(`/chat/${promptId}`);
+      blocker?.proceed?.();
+      return true;
+    } catch (err: any) {
+      notify(err?.response?.data?.message || err.message, "error");
+      return false;
     }
   };
 
@@ -225,6 +269,8 @@ export default function DashboardProvider({
     setPrompt,
     getPromptMessages,
     sendPromptMessage,
+    savePromptMessage,
+    setIsSaved,
   };
   return (
     <DashboardContext.Provider value={value}>
