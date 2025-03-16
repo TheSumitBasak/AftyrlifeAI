@@ -55,7 +55,9 @@ export default function Message({
               <User className="size-7 mx-auto" />
             </div>
           </div>
-          <div className="chat-header mb-0.5">{profile?.firstName || ""}</div>
+          <div className="chat-header mb-0.5">
+            {profile?.firstName || ""} {profile?.lastName || ""}
+          </div>
           <div className="chat-bubble prose">
             <Markdown>{message.message.replace(/\n/g, "  \n")}</Markdown>
           </div>
