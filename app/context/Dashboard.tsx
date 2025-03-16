@@ -28,7 +28,12 @@ export default function DashboardProvider({
 
   const [isSaved, setIsSaved] = useState(true);
 
-  const blocker = useBlocker(({ currentLocation, nextLocation }) => {
+  useBlocker(({ currentLocation, nextLocation }) => {
+    if (
+      nextLocation.search.includes("save") ||
+      nextLocation.search.includes("deleted")
+    )
+      return false;
     return (
       !isSaved &&
       globalThis.confirm(
@@ -54,7 +59,7 @@ export default function DashboardProvider({
         notify("Internal server error", "error");
         return false;
       }
-      setProfile(res.data);
+      setProfile((res?.data as any)?.data);
     } catch (err: any) {
       console.log(err);
     }
@@ -249,12 +254,91 @@ export default function DashboardProvider({
         notify("Internal server error", "error");
         return false;
       }
-      navigate(`/chat/${promptId}`);
-      blocker?.proceed?.();
+      notify("Prompt saved successfully", "success");
+      navigate(`/chat/${promptId}?saved=true`);
       return true;
     } catch (err: any) {
       notify(err?.response?.data?.message || err.message, "error");
       return false;
+    }
+  };
+
+  const deleteUserPrompt = async ({ promptId }: { promptId: string }) => {
+    try {
+      if (!cookies.token) return [];
+      const res = await deleteRequest(
+        `/user-prompt/${promptId}`,
+        cookies?.token
+      );
+      if (!res) {
+        notify("Internal server error", "error");
+        return false;
+      }
+      notify("Prompt deleted successfully", "success");
+      navigate("/dashboard?deleted=true");
+      return true;
+    } catch (err: any) {
+      notify(err?.response?.data?.message || err.message, "error");
+      return false;
+    }
+  };
+
+  const getTrainMessages = async ({
+    promptId,
+    page = 1,
+  }: {
+    promptId: string;
+    page: number;
+  }) => {
+    try {
+      if (!cookies.token) return [];
+      const res = await getRequest(
+        `/user-prompt/test-prompt/${promptId}?page=${page}${
+          session ? "&session=" + session : ""
+        }`,
+        cookies?.token
+      );
+      if (!res) {
+        notify("Internal server error", "error");
+        return [];
+      }
+      return res.data;
+    } catch (err: any) {
+      notify(err?.response?.data?.message || err.message, "error");
+      return [];
+    }
+  };
+
+  const sendTrainMessage = async ({
+    promptId,
+    message,
+  }: {
+    promptId: string;
+    message: string;
+  }) => {
+    try {
+      if (!cookies.token) return;
+      const dt: any = {
+        message,
+      };
+      if (session) dt.session = session;
+      const res = await postRequest(
+        `/user-prompt/test-prompt/${promptId}`,
+        dt,
+        cookies.token
+      );
+      if (!res) {
+        notify("Internal server error", "error");
+        return false;
+      }
+      if ((res?.data as any)?.session) setSession((res?.data as any)?.session);
+      return res.data;
+    } catch (err: any) {
+      console.log(err);
+      notify(
+        err?.response?.data?.message || err.message || "Internal server error",
+        "error"
+      );
     }
   };
 
@@ -271,6 +355,11 @@ export default function DashboardProvider({
     sendPromptMessage,
     savePromptMessage,
     setIsSaved,
+    deleteUserPrompt,
+    getTrainMessages,
+    sendTrainMessage,
+    setSession,
+    session
   };
   return (
     <DashboardContext.Provider value={value}>
