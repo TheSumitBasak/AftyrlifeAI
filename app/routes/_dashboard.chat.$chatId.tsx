@@ -234,7 +234,12 @@ export default function Chat() {
     setMsgIsLoading(true);
     setIsNewMsg(true);
     setHistory((pr) => [
-      { role: "user", message: text, _id: "Demo", createdAt: "" },
+      {
+        role: "user",
+        message: text,
+        _id: "Demo",
+        createdAt: new Date().toISOString(),
+      },
       ...pr,
     ]);
     const msgRes = await sendChatMessage({
@@ -244,7 +249,12 @@ export default function Chat() {
     if (msgRes?.message) {
       setIsNewMsg(true);
       setHistory((pr) => [
-        { role: "model", message: msgRes?.message, _id: "Demo", createdAt: "" },
+        {
+          role: "model",
+          message: msgRes?.message,
+          _id: "Demo",
+          createdAt: new Date().toISOString(),
+        },
         ...pr,
       ]);
     }
@@ -259,7 +269,7 @@ export default function Chat() {
           data-tip="reset"
         >
           <button
-            onClick={() => resetChatMessage({promptId: res.data._id})}
+            onClick={() => resetChatMessage({ promptId: res.data._id })}
             className="shadow-lg bg-primary/80 p-3 rounded-lg text-base-200 cursor-pointer"
           >
             <RefreshCcw

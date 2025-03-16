@@ -168,8 +168,13 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 }
 
 export default function TrainPrompt() {
-  const { getPromptMessages, sendPromptMessage, setIsSaved, setPrompt } =
-    useDashboardContext();
+  const {
+    getPromptMessages,
+    sendPromptMessage,
+    setIsSaved,
+    setPrompt,
+    setSession,
+  } = useDashboardContext();
 
   const res: any = useLoaderData();
 
@@ -194,6 +199,7 @@ export default function TrainPrompt() {
       setPrompt(res.data);
     }
     setIsSaved(true);
+    setSession("");
   }, [res.data]);
 
   useEffect(() => {
@@ -240,7 +246,12 @@ export default function TrainPrompt() {
     setIsNewMsg(true);
     setIsSaved(false);
     setHistory((pr) => [
-      { role: "user", message: text, _id: "Demo", createdAt: "" },
+      {
+        role: "user",
+        message: text,
+        _id: "Demo",
+        createdAt: new Date().toISOString(),
+      },
       ...pr,
     ]);
     const msgRes = await sendPromptMessage({
@@ -250,7 +261,12 @@ export default function TrainPrompt() {
     if (msgRes?.message) {
       setIsNewMsg(true);
       setHistory((pr) => [
-        { role: "model", message: msgRes?.message, _id: "Demo", createdAt: "" },
+        {
+          role: "model",
+          message: msgRes?.message,
+          _id: "Demo",
+          createdAt: new Date().toISOString(),
+        },
         ...pr,
       ]);
     }
@@ -260,7 +276,7 @@ export default function TrainPrompt() {
   return (
     <div>
       <SideBar className="fixed left-0 lg:block hidden border-r border-base-content/50" />
-      <TestPrompt />
+      <TestPrompt prompt={res?.data} msgLength={history.length} />
       <main className="lg:pl-75 p-5">
         {history.length > 0 ? (
           <div className="min-h-[calc(100dvh-95px)] max-w-5xl flex flex-col mx-auto gap-y-6">
