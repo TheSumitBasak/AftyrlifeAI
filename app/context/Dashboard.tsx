@@ -9,7 +9,12 @@ import {
 import { useCookies } from "react-cookie";
 import { useNotifications } from "reapop";
 import { Prompt } from "~/types/prompt";
-import { deleteRequest, getRequest, postRequest } from "~/utility/api";
+import {
+  deleteRequest,
+  getRequest,
+  postRequest,
+  putRequest,
+} from "~/utility/api";
 
 const DashboardContext = createContext<any>({});
 
@@ -108,6 +113,57 @@ export default function DashboardProvider({
       navigate(`/train-prompt/${createRes?.data?.data?._id}`);
     } catch (err: any) {
       return err?.response?.data?.message || err.message;
+    }
+  };
+
+  const editPrompt = async ({
+    name,
+    description,
+    resetChat = false,
+  }: {
+    name: String;
+    description: string;
+    resetChat: boolean;
+  }) => {
+    try {
+      if (!cookies.token) return;
+      const createRes: any = await putRequest(
+        `/user-prompt/${prompt?._id}`,
+        {
+          name,
+          description,
+          reset: resetChat,
+        },
+        cookies?.token
+      );
+
+      if (!createRes?.data) {
+        return "Internal server error";
+      }
+      notify("Prompt updated successfully", "success");
+      globalThis.window.location.reload();
+    } catch (err: any) {
+      return err?.response?.data?.message || err.message;
+    }
+  };
+
+  const resetPrompt = async ({ promptId }: { promptId: string }) => {
+    try {
+      if (!cookies.token) return false;
+      const res = await putRequest(
+        `/user-prompt/${promptId}/reset`,
+        {},
+        cookies?.token
+      );
+      if (!res) {
+        notify("Internal server error", "error");
+        return false;
+      }
+      globalThis.window.location.reload();
+      return true;
+    } catch (err: any) {
+      notify(err?.response?.data?.message || err.message, "error");
+      return false;
     }
   };
 
@@ -345,6 +401,8 @@ export default function DashboardProvider({
   const value = {
     getPrompts,
     createPrompt,
+    editPrompt,
+    resetPrompt,
     getChatMessages,
     profile,
     sendChatMessage,
@@ -359,7 +417,7 @@ export default function DashboardProvider({
     getTrainMessages,
     sendTrainMessage,
     setSession,
-    session
+    session,
   };
   return (
     <DashboardContext.Provider value={value}>
