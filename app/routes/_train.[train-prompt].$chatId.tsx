@@ -1,5 +1,5 @@
 import { LoaderFunctionArgs } from "@remix-run/node";
-import { Bot } from "lucide-react";
+import { Bot, RefreshCcw } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useBlocker, useLoaderData, useNavigate } from "react-router";
 import MessageBox from "~/component/chatBot/MessageBox";
@@ -174,6 +174,7 @@ export default function TrainPrompt() {
     setIsSaved,
     setPrompt,
     setSession,
+    resetPrompt,
   } = useDashboardContext();
 
   const res: any = useLoaderData();
@@ -277,7 +278,21 @@ export default function TrainPrompt() {
     <div>
       <SideBar className="fixed left-0 lg:block hidden border-r border-base-content/50" />
       <TestPrompt prompt={res?.data} msgLength={history.length} />
-      <main className="lg:pl-75 p-5">
+      <main className="lg:pl-75 p-5 relative">
+        <div
+          className="tooltip tooltip-bottom fixed z-10 top-20 right-5"
+          data-tip="reset"
+        >
+          <button
+            onClick={() => resetPrompt({ promptId: res.data._id })}
+            className="shadow-lg bg-primary/80 p-3 rounded-lg text-base-200 cursor-pointer"
+          >
+            <RefreshCcw
+              strokeWidth={3}
+              className="size-5 stroke-text-base-200"
+            />
+          </button>
+        </div>
         {history.length > 0 ? (
           <div className="min-h-[calc(100dvh-95px)] max-w-5xl flex flex-col mx-auto gap-y-6">
             <div className="fixed -z-10 inset-0 flex items-center justify-center lg:pl-75">
