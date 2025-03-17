@@ -11,6 +11,7 @@ import { ReactNode, useState } from "react";
 import { useDashboardContext } from "~/context/Dashboard";
 import { useTrainBotContext } from "~/context/TrainBot";
 import ConfirmationModal from "../ConfirmationModal";
+import EditPromptModal from "../EditPromptModal";
 
 export default function SideBar({
   className = "",
@@ -47,10 +48,7 @@ export default function SideBar({
           <h3 className="text-xl font-bold">{prompt?.name || "Prompt 1."}</h3>
         </div>
         <ul className="space-y-3 mt-5 font-[350]">
-          <li className="w-full items-center flex justify-start gap-4 px-3 py-2 bg-base-200 hover:bg-base-100 cursor-pointer rounded-lg">
-            <Settings2 className="size-7" strokeWidth={1.2} />
-            Edit Metadata
-          </li>
+          <EditPromptModal />
           <li
             onClick={() => setIsOpen((op: boolean) => !op)}
             className="w-full items-center flex justify-start gap-4 px-3 py-2 bg-base-200 hover:bg-base-100 cursor-pointer rounded-lg"
@@ -82,7 +80,9 @@ export default function SideBar({
       </aside>
       <ConfirmationModal
         isOpen={isConfirmationDeleteOpen}
-        onOk={async() => {await deleteUserPrompt({ promptId: params.chatId });}}
+        onOk={async () => {
+          await deleteUserPrompt({ promptId: params.chatId });
+        }}
         title="Confirmation"
         message={
           "Are you sure you want to delete this prompt?\nThis action cannot be undone."
