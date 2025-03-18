@@ -80,7 +80,48 @@ export default function AuthProvider({
     }
   };
 
-  const value = { login, register };
+  const forgotPassword = async (email: string) => {
+    try {
+      await postRequest("/auth/forgot-password", { email });
+      notify("OTP sent to your email", "success");
+    } catch (err: any) {
+      return err?.response?.data?.message || err.message;
+    }
+  };
+
+  const verifyOtp = async ({ email, otp }: { email: string; otp: string }) => {
+    try {
+      const res = await postRequest("/auth/verify-otp", { email, otp });
+      notify("OTP verified successfully", "success");
+      return res.data;
+    } catch (err: any) {
+      return err?.response?.data?.message || err.message;
+    }
+  };
+
+  const resetPassword = async ({
+    email,
+    password,
+    resetToken,
+  }: {
+    email: string;
+    password: string;
+    resetToken: string;
+  }) => {
+    try {
+      await postRequest("/auth/reset-password", {
+        email,
+        password,
+        resetToken,
+      });
+      notify("Password reset successfully", "success");
+      navigate("/login");
+    } catch (err: any) {
+      return err?.response?.data?.message || err.message;
+    }
+  };
+
+  const value = { login, register, forgotPassword, verifyOtp, resetPassword };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
