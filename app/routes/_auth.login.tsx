@@ -103,12 +103,12 @@ export default function Login() {
               title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
             />
           </label>
-
           {errors.password && (
             <p className="text-sm text-error">
               {String(errors?.password?.message)}
             </p>
           )}
+          <Link to="/forgot-password" className="text-right w-full block text-sm link link-primary mt-1">Forgot Password</Link>
         </div>
         <button className="btn btn-primary text-base-200 mt-4">
           {isLoading ? (
