@@ -24,7 +24,7 @@ export default function Navbar() {
   return (
     <div
       data-at-top={isTop}
-      className={`group fixed inset-x-0 z-[60] flex justify-center transition-transform duration-500 sm:container ${
+      className={`group fixed inset-x-0 z-[60] flex justify-center transition-transform duration-500 sm:container mx-auto ${
         visible ? "translate-y-0 pt-4" : "-translate-y-full"
       }`}
     >
