@@ -38,7 +38,7 @@ export default function SideBar({
   return (
     <>
       <aside
-        className={`w-70 max-w-[90vw] lg:h-[calc(100dvh-54px)] h-[100dvh] bg-base-300 px-3 py-4 ${className}`}
+        className={`z-[1400] w-70 max-w-[90vw] lg:h-[calc(100dvh-54px)] h-[100dvh] bg-base-300 px-3 py-4 ${className}`}
       >
         {children}
         <div className="flex flex-col items-center jusitfy-center pr-5 pt-2">

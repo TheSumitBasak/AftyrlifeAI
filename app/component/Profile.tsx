@@ -22,7 +22,7 @@ export default function Profile() {
         />{" "}
       </div>
       <ul
-        data-theme="fantasy"
+        data-theme="winter"
         tabIndex={0}
         className="menu dropdown-content bg-base-100 rounded-lg z-1 w-52 p-2 shadow-sm"
       >

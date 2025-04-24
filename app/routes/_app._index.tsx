@@ -1,6 +1,12 @@
 import type { MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
-import { Bot, ChartNoAxesCombined, RefreshCcw, Sparkle } from "lucide-react";
+import {
+  Bot,
+  ChartNoAxesCombined,
+  HeartPulse,
+  RefreshCcw,
+  Sparkle,
+} from "lucide-react";
 import Navbar from "~/component/Navbar";
 
 export const meta: MetaFunction = () => {
@@ -53,7 +59,7 @@ export default function Index() {
           <div className="p-12 grid lg:grid-cols-3 grid-cols-1 bg-base-200 rounded-xl">
             <div className="lg:border-r lg:border-b-0 border-b flex flex-col lg:py-0 py-6 gap-y-5">
               <div className="flex items-center justify-center bg-gradient-to-br from-primary via-info to-accent w-14 h-14 rounded-full">
-                <Sparkle strokeWidth={2.5} className="size-7" />
+                <Sparkle strokeWidth={2.5} className="size-7 stroke-white " />
               </div>
               <div>
                 <h3 className="text-2xl font-bold">Lorem ipsum dolor sit</h3>
@@ -64,7 +70,10 @@ export default function Index() {
             </div>
             <div className="lg:border-r lg:border-b-0 border-b flex flex-col lg:pl-10 pl-0 lg:py-0 py-6 gap-y-5">
               <div className="flex items-center justify-center bg-gradient-to-br from-primary via-info to-accent w-14 h-14 rounded-full">
-                <ChartNoAxesCombined strokeWidth={2.5} className="size-7" />
+                <ChartNoAxesCombined
+                  strokeWidth={2.5}
+                  className="size-7 stroke-white "
+                />
               </div>
               <div>
                 <h3 className="text-2xl font-bold">Lorem ipsum dolor sit</h3>
@@ -75,7 +84,7 @@ export default function Index() {
             </div>
             <div className="flex flex-col lg:pl-10 pl-0 lg:py-0 py-6 gap-y-5">
               <div className="flex items-center justify-center bg-gradient-to-br from-primary via-info to-accent w-14 h-14 rounded-full">
-                <RefreshCcw strokeWidth={2.5} className="size-6" />
+                <RefreshCcw strokeWidth={2.5} className="size-6 stroke-white" />
               </div>
               <div>
                 <h3 className="text-2xl font-bold">Lorem ipsum dolor sit</h3>
@@ -96,11 +105,128 @@ export default function Index() {
             Our range of solutions tailored to meet the unique needs of diverse
             industries, driving transformation across the entire spectrum.
           </p>
-          <div className="space-y-6">
-            <div></div>
+          <div className="space-y-6 mt-7">
+            <div>
+              <div className="bg-[linear-gradient(0deg,_var(--color-base-200)_0%,_var(--color-primary)_100%)] w-full rounded-lg p-[.9px]">
+                <div className="p-7 bg-base-200/30 bg-[radial-gradient(50%_50%_at_12.1%_21.8%,_color-mix(in_oklab,var(--color-primary)_10%,var(--color-base-100))_0%,_var(--color-base-100)_100%)] flex-grow-1 h-full rounded-lg flex flex-col align-start justify-center gap-3">
+                  <div className="bg-gradient-to-br from-primary via-info to-accent rounded-full w-12 h-12 border-[.1px] flex items-center justify-center">
+                    <HeartPulse
+                      className="size-7 stroke-white"
+                      strokeWidth={2}
+                    />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl mb-5">Healthcare</h3>
+                    <div
+                      className="h-[1px] w-[50%]"
+                      style={{
+                        background:
+                          "linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, oklch(0.72 0.18 350.05 / 0.36) 50%, rgba(255, 255, 255, 0) 100%)",
+                      }}
+                    ></div>
+                  </div>
+                  <p>
+                    Streamlining processes, enhancing patient care, and
+                    improving outcomes technology and insights.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div className="bg-[linear-gradient(0deg,_var(--color-base-200)_0%,_var(--color-primary)_100%)] w-full rounded-lg p-[.9px]">
+                <div className="p-7 bg-base-200/30 bg-[radial-gradient(50%_50%_at_12.1%_21.8%,_color-mix(in_oklab,var(--color-primary)_10%,var(--color-base-100))_0%,_var(--color-base-100)_100%)] flex-grow-1 h-full rounded-lg flex flex-col align-start justify-center gap-3">
+                  <div className="bg-gradient-to-br from-primary via-info to-accent rounded-full w-12 h-12 border-[.1px] flex items-center justify-center">
+                    <HeartPulse
+                      className="size-7 stroke-white"
+                      strokeWidth={2}
+                    />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl mb-5">Healthcare</h3>
+                    <div
+                      className="h-[1px] w-[50%]"
+                      style={{
+                        background:
+                          "linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, oklch(0.72 0.18 350.05 / 0.36) 50%, rgba(255, 255, 255, 0) 100%)",
+                      }}
+                    ></div>
+                  </div>
+                  <p>
+                    Streamlining processes, enhancing patient care, and
+                    improving outcomes technology and insights.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div className="bg-[linear-gradient(0deg,_var(--color-base-200)_0%,_var(--color-primary)_100%)] w-full rounded-lg p-[.9px]">
+                <div className="p-7 bg-base-200/30 bg-[radial-gradient(50%_50%_at_12.1%_21.8%,_color-mix(in_oklab,var(--color-primary)_10%,var(--color-base-100))_0%,_var(--color-base-100)_100%)] flex-grow-1 h-full rounded-lg flex flex-col align-start justify-center gap-3">
+                  <div className="bg-gradient-to-br from-primary via-info to-accent rounded-full w-12 h-12 border-[.1px] flex items-center justify-center">
+                    <HeartPulse
+                      className="size-7 stroke-white"
+                      strokeWidth={2}
+                    />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl mb-5">Healthcare</h3>
+                    <div
+                      className="h-[1px] w-[50%]"
+                      style={{
+                        background:
+                          "linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, oklch(0.72 0.18 350.05 / 0.36) 50%, rgba(255, 255, 255, 0) 100%)",
+                      }}
+                    ></div>
+                  </div>
+                  <p>
+                    Streamlining processes, enhancing patient care, and
+                    improving outcomes technology and insights.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div className="bg-[linear-gradient(0deg,_var(--color-base-200)_0%,_var(--color-primary)_100%)] w-full rounded-lg p-[.9px]">
+                <div className="p-7 bg-base-200/30 bg-[radial-gradient(50%_50%_at_12.1%_21.8%,_color-mix(in_oklab,var(--color-primary)_10%,var(--color-base-100))_0%,_var(--color-base-100)_100%)] flex-grow-1 h-full rounded-lg flex flex-col align-start justify-center gap-3">
+                  <div className="bg-gradient-to-br from-primary via-info to-accent rounded-full w-12 h-12 border-[.1px] flex items-center justify-center">
+                    <HeartPulse
+                      className="size-7 stroke-white"
+                      strokeWidth={2}
+                    />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl mb-5">Healthcare</h3>
+                    <div
+                      className="h-[1px] w-[50%]"
+                      style={{
+                        background:
+                          "linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, oklch(0.72 0.18 350.05 / 0.36) 50%, rgba(255, 255, 255, 0) 100%)",
+                      }}
+                    ></div>
+                  </div>
+                  <p>
+                    Streamlining processes, enhancing patient care, and
+                    improving outcomes technology and insights.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </aside>
-        <aside></aside>
+        <aside className="col-span-5">
+          <img
+            src="/assets/transform.png"
+            alt="transforn"
+            className="rounded-xl sticky top-10"
+            style={{
+              filter: `brightness(${
+                localStorage.getItem("site-theme") == "winter" ? 1.2 : 1
+              })`,
+            }}
+          />
+        </aside>
       </section>
     </>
   );
