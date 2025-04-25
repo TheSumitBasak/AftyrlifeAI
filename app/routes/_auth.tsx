@@ -11,7 +11,7 @@ export default function AuthLayout() {
         </Link>
         <div className="relative overflow-hidden md:flex items-center justify-center hidden ">
           <h1 className="lg:text-6xl md:text-5xl text-4xl md:font-extrabold font-bold text-center">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+            AI-Powered Prompt Generation for Limitless Creativity
           </h1>
           <div className="absolute inset-0 nav-design-container bg-base-200 -z-10"></div>
         </div>
