@@ -136,3 +136,18 @@ input[type="number"]::-webkit-outer-spin-button {
     height: 10px;
   }
 }
+
+
+.hero-img {
+  animation: hero-animation 210s linear 0s infinite;
+}
+
+
+@keyframes hero-animation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
