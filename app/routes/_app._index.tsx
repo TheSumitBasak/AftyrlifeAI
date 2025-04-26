@@ -31,7 +31,7 @@ export default function Index() {
         <div className="-z-10 absolute w-[45px] h-[1600px] -top-[640px] -rotate-[35deg] bg-primary/80 blur-[175px]"></div>
         <div className="absolute -z-10 inset-0 h-[100dvh] pt-30 overflow-hidden pointer-events-none">
           <img
-            src="/assets/hero.png"
+            src="/assets/hero.avif"
             alt="hero"
             className="max-w-4xl opacity-50 mx-auto hero-img"
           />
