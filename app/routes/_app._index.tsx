@@ -14,6 +14,8 @@ export const meta: MetaFunction = () => {
   return [
     { title: "New Remix App" },
     { name: "description", content: "Welcome to Remix!" },
+    { preload: "preload", href: "/assets/hero.avif", as: "image" },
+    { preload: "preload", href: "/assets/transform.png", as: "image" },
   ];
 };
 
