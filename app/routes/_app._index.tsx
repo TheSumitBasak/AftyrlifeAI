@@ -4,7 +4,9 @@ import {
   Bot,
   ChartNoAxesCombined,
   HeartPulse,
+  Landmark,
   RefreshCcw,
+  ShoppingBasket,
   Sparkle,
 } from "lucide-react";
 
@@ -49,7 +51,7 @@ export default function Index() {
           </p>
           <Link
             to="/login"
-            className="mt-3 relative bg-gradient-to-br from-primary via-info to-accent md:mx-0 mx-auto rounded-full px-6 py-2 text-xl font-bold shadow-lg"
+            className="mt-3 relative bg-gradient-to-br from-primary via-info to-accent md:mx-0 mx-auto rounded-full px-6 py-2 text-xl font-bold"
           >
             <span className="absolute inset-0 rounded-full bg-white m-1"></span>
             <span className="relative bg-gradient-to-r from-primary via-info to-accent bg-clip-text text-transparent">
@@ -75,9 +77,12 @@ export default function Index() {
                 <Sparkle strokeWidth={2.5} className="size-7 stroke-white " />
               </div>
               <div>
-                <h3 className="text-2xl font-bold">Lorem ipsum dolor sit</h3>
+                <h3 className="text-2xl font-bold">
+                  Build Custom AI Bots Instantly
+                </h3>
                 <p className="text-base-content/70 mt-2">
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                  Create highly specialized bots tailored to your needs by
+                  simply chatting with our powerful AI model.
                 </p>
               </div>
             </div>
@@ -89,9 +94,12 @@ export default function Index() {
                 />
               </div>
               <div>
-                <h3 className="text-2xl font-bold">Lorem ipsum dolor sit</h3>
+                <h3 className="text-2xl font-bold">
+                  Train and Deploy in Minutes
+                </h3>
                 <p className="text-base-content/70 mt-2">
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                  Seamlessly train your bots with natural conversations and
+                  deploy them across your favorite platforms.
                 </p>
               </div>
             </div>
@@ -100,16 +108,19 @@ export default function Index() {
                 <RefreshCcw strokeWidth={2.5} className="size-6 stroke-white" />
               </div>
               <div>
-                <h3 className="text-2xl font-bold">Lorem ipsum dolor sit</h3>
+                <h3 className="text-2xl font-bold">
+                  Adapt and Evolve with Ease
+                </h3>
                 <p className="text-base-content/70 mt-2">
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                  Your bots continuously learn and adapt on your given data,
+                  ensuring they stay effective as your needs evolve.
                 </p>
               </div>
             </div>
           </div>
         </div>
       </section>
-      <section className="py-8 md:py-12 xl:py-16 2xl:py-24 max-w-7xl px-5 mx-auto lg:grid grid-cols-12 gap-12">
+      <section className="py-8 md:py-12 xl:py-16 2xl:py-24 max-w-7xl px-5 mx-auto lg:grid grid-cols-12 gap-20">
         <aside className="lg:col-span-7 col-span-12 lg:text-left text-center">
           <h2 className="mt-4 md:text-5xl text-3xl font-semibold mb-1">
             Transformative Solutions Across the Spectrum
@@ -122,7 +133,7 @@ export default function Index() {
             <div>
               <div className="bg-[linear-gradient(0deg,_var(--color-base-200)_0%,_var(--color-primary)_100%)] w-full rounded-lg p-[.9px]">
                 <div className="p-7 bg-base-200/30 bg-[radial-gradient(50%_50%_at_12.1%_21.8%,_color-mix(in_oklab,var(--color-primary)_10%,var(--color-base-100))_0%,_var(--color-base-100)_100%)] flex-grow-1 h-full rounded-lg flex flex-col align-start justify-center gap-3">
-                  <div className="bg-gradient-to-br from-primary via-info to-accent md:mx-0 mx-auto rounded-full w-12 h-12 border-[.1px] flex items-center justify-center">
+                  <div className="bg-gradient-to-br from-primary via-info to-accent md:mx-0 mx-auto rounded-full w-12 h-12 border-[.1px] border-white flex items-center justify-center">
                     <HeartPulse
                       className="size-7 stroke-white"
                       strokeWidth={2}
@@ -138,9 +149,10 @@ export default function Index() {
                       }}
                     ></div>
                   </div>
-                  <p>
-                    Streamlining processes, enhancing patient care, and
-                    improving outcomes technology and insights.
+                  <p className="lg:w-[80%]">
+                    Revolutionize patient care, streamline operations, and
+                    unlock better outcomes with cutting-edge technology and
+                    AI-driven insights.
                   </p>
                 </div>
               </div>
@@ -149,14 +161,11 @@ export default function Index() {
             <div>
               <div className="bg-[linear-gradient(0deg,_var(--color-base-200)_0%,_var(--color-primary)_100%)] w-full rounded-lg p-[.9px]">
                 <div className="p-7 bg-base-200/30 bg-[radial-gradient(50%_50%_at_12.1%_21.8%,_color-mix(in_oklab,var(--color-primary)_10%,var(--color-base-100))_0%,_var(--color-base-100)_100%)] flex-grow-1 h-full rounded-lg flex flex-col align-start justify-center gap-3">
-                  <div className="bg-gradient-to-br from-primary via-info to-accent md:mx-0 mx-auto rounded-full w-12 h-12 border-[.1px] flex items-center justify-center">
-                    <HeartPulse
-                      className="size-7 stroke-white"
-                      strokeWidth={2}
-                    />
+                  <div className="bg-gradient-to-br from-primary via-info to-accent md:mx-0 mx-auto rounded-full w-12 h-12 border-[.1px] border-white flex items-center justify-center">
+                    <Landmark className="size-7 stroke-white" strokeWidth={2} />
                   </div>
                   <div>
-                    <h3 className="text-2xl mb-5">Healthcare</h3>
+                    <h3 className="text-2xl mb-5">Finance</h3>
                     <div
                       className="h-[1px] w-[50%]"
                       style={{
@@ -165,9 +174,9 @@ export default function Index() {
                       }}
                     ></div>
                   </div>
-                  <p>
-                    Streamlining processes, enhancing patient care, and
-                    improving outcomes technology and insights.
+                  <p className="lg:w-[80%]">
+                    Empower financial growth, minimize risks, and optimize
+                    operations in an ever-evolving digital economy.
                   </p>
                 </div>
               </div>
@@ -176,14 +185,14 @@ export default function Index() {
             <div>
               <div className="bg-[linear-gradient(0deg,_var(--color-base-200)_0%,_var(--color-primary)_100%)] w-full rounded-lg p-[.9px]">
                 <div className="p-7 bg-base-200/30 bg-[radial-gradient(50%_50%_at_12.1%_21.8%,_color-mix(in_oklab,var(--color-primary)_10%,var(--color-base-100))_0%,_var(--color-base-100)_100%)] flex-grow-1 h-full rounded-lg flex flex-col align-start justify-center gap-3">
-                  <div className="bg-gradient-to-br from-primary via-info to-accent md:mx-0 mx-auto rounded-full w-12 h-12 border-[.1px] flex items-center justify-center">
-                    <HeartPulse
+                  <div className="bg-gradient-to-br from-primary via-info to-accent md:mx-0 mx-auto rounded-full w-12 h-12 border-[.1px] border-white flex items-center justify-center">
+                    <ShoppingBasket
                       className="size-7 stroke-white"
                       strokeWidth={2}
                     />
                   </div>
                   <div>
-                    <h3 className="text-2xl mb-5">Healthcare</h3>
+                    <h3 className="text-2xl mb-5">Retail</h3>
                     <div
                       className="h-[1px] w-[50%]"
                       style={{
@@ -192,36 +201,10 @@ export default function Index() {
                       }}
                     ></div>
                   </div>
-                  <p>
-                    Streamlining processes, enhancing patient care, and
-                    improving outcomes technology and insights.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <div className="bg-[linear-gradient(0deg,_var(--color-base-200)_0%,_var(--color-primary)_100%)] w-full rounded-lg p-[.9px]">
-                <div className="p-7 bg-base-200/30 bg-[radial-gradient(50%_50%_at_12.1%_21.8%,_color-mix(in_oklab,var(--color-primary)_10%,var(--color-base-100))_0%,_var(--color-base-100)_100%)] flex-grow-1 h-full rounded-lg flex flex-col align-start justify-center gap-3">
-                  <div className="bg-gradient-to-br from-primary via-info to-accent md:mx-0 mx-auto rounded-full w-12 h-12 border-[.1px] flex items-center justify-center">
-                    <HeartPulse
-                      className="size-7 stroke-white"
-                      strokeWidth={2}
-                    />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl mb-5">Healthcare</h3>
-                    <div
-                      className="h-[1px] w-[50%]"
-                      style={{
-                        background:
-                          "linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, oklch(0.72 0.18 350.05 / 0.36) 50%, rgba(255, 255, 255, 0) 100%)",
-                      }}
-                    ></div>
-                  </div>
-                  <p>
-                    Streamlining processes, enhancing patient care, and
-                    improving outcomes technology and insights.
+                  <p className="lg:w-[80%]">
+                    Elevate customer experiences, uncover emerging trends, and
+                    redefine the future of shopping through intelligent
+                    solutions.
                   </p>
                 </div>
               </div>

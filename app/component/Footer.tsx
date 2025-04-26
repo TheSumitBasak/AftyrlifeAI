@@ -20,7 +20,7 @@ export default function Footer() {
             Our ground-breaking tech opens unlimited potential across a range of
             industries.
           </p>
-          <Link to="/login" className="btn btn-primary btn-lg rounded-2xl">
+          <Link to="/login" className="btn btn-primary btn-lg rounded-2xl text-base-100">
             Get Started for Free
           </Link>
         </div>
