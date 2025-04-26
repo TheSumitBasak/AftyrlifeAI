@@ -72,13 +72,13 @@ export default function Navbar() {
         <div className="gap-3">
           <ul className="menu menu-horizontal hidden gap-2 px-1 lg:inline-flex font-semibold">
             <li>
-              <Link to="/demo">Demo</Link>
+              <Link to="/use-case">Use Case</Link>
             </li>
             <li>
-              <Link to="/contact-us">Contact us</Link>
+              <Link to="/contact-us">Contact Us</Link>
             </li>
             <li>
-              <Link to="/about-us">About us</Link>
+              <Link to="/about-us">About Us</Link>
             </li>
           </ul>
         </div>
