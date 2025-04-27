@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 
 const apiClient = axios.create({
-  baseURL: "http://localhost:3000/api/v0",
+  baseURL: "https://aftyr-life-api.vercel.app/api/v0",
   headers: {
     "Content-Type": "application/json",
   },
