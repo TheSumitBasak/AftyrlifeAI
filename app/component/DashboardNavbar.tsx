@@ -13,7 +13,7 @@ export default function DashboardNavbar() {
     >
       <div className="flex w-full items-center justify-between rounded-full px-6 py-3 lg:py-1.5">
         <div className="flex items-center gap-2">
-          <Link to="/">
+          <Link to="/dashboard">
             <h1 className="text-xl font-bold">AftyrlifeAI</h1>
           </Link>
         </div>

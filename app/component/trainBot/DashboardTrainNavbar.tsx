@@ -40,7 +40,7 @@ export default function DashboardTrainNavbar() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Link to="/">
+            <Link to="/dashboard">
               <h1 className="text-xl font-bold">AftyrlifeAI</h1>
             </Link>
           </div>

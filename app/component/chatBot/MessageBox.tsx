@@ -4,6 +4,7 @@ import {
   KeyboardEvent,
   useCallback,
   useMemo,
+  useRef,
   useState,
 } from "react";
 
@@ -12,6 +13,7 @@ export default function MessageBox({
 }: {
   onSubmit?: (text: string) => Promise<void>;
 }) {
+  const textRef = useRef<HTMLTextAreaElement>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -25,7 +27,7 @@ export default function MessageBox({
       if (!ev.shiftKey && ev.key === "Enter") {
         ev.preventDefault();
         const msg = ev.currentTarget.value;
-        ev.currentTarget.value = "";
+        if (textRef.current) textRef.current.value = "";
         setIsLoading(true);
         await onSubmit(msg);
         setIsLoading(false);
@@ -46,6 +48,7 @@ export default function MessageBox({
       className="bg-base-300 rounded-xl w-full pl-5 pr-2 py-2 pt-3 flex justify-center items-center"
     >
       <textarea
+        ref={textRef}
         style={{ height: `${Math.min(totalLines, 4) * 24 + 16}px` }}
         className={`px-2 py-1 rounded-xl flex-1 resize-none border-0 outline-0 flex-grow-1`}
         placeholder="Enter message..."
