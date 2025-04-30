@@ -27,7 +27,11 @@ export default function MessageBox({
       if (!ev.shiftKey && ev.key === "Enter") {
         ev.preventDefault();
         const msg = ev.currentTarget.value;
-        if (textRef.current) textRef.current.value = "";
+        if (textRef.current) {
+          textRef.current.value = "";
+          textRef.current.dispatchEvent(new Event("input", { bubbles: true }));
+        }
+        setMessage("");
         setIsLoading(true);
         await onSubmit(msg);
         setIsLoading(false);
