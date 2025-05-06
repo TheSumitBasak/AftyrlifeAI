@@ -110,7 +110,7 @@ export default function DashboardProvider({
         return "Internal server error";
       }
       notify("Prompt created successfully", "success");
-      navigate(`/train-prompt/${createRes?.data?.data?._id}`);
+      navigate(`/bot/${createRes?.data?.data?._id}`);
     } catch (err: any) {
       return err?.response?.data?.message || err.message;
     }
