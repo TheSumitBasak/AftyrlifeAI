@@ -136,13 +136,7 @@ const data = [
   },
 ];
 
-export default function TestPrompt({
-  prompt,
-  msgLength,
-}: {
-  prompt: Prompt;
-  msgLength: number;
-}) {
+export default function TestPrompt({ prompt }: { prompt: Prompt }) {
   const { isOpen, setIsOpen } = useTrainBotContext();
   const chatRef = useRef<HTMLDivElement>(null);
 
@@ -171,8 +165,8 @@ export default function TestPrompt({
   }, [isOpen, history]);
 
   useEffect(() => {
-    if (msgLength > 0) getMessages();
-  }, [msgLength]);
+    getMessages();
+  }, []);
 
   const getMessages = async (page = 1) => {
     const prevScrollHeight = document.body.scrollHeight;
