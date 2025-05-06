@@ -1,13 +1,19 @@
-import { useParams } from "@remix-run/react";
+import { Link, useLocation, useParams } from "@remix-run/react";
 import {
+  ArrowDown,
+  BetweenHorizontalStart,
   BookOpenCheck,
   Bot,
+  Cable,
+  ChevronDown,
+  ChevronUp,
+  Globe,
   Loader,
   SaveAll,
   Settings2,
   Trash2,
 } from "lucide-react";
-import { ReactNode, useState } from "react";
+import { ReactNode, useCallback, useMemo, useState } from "react";
 import { useDashboardContext } from "~/context/Dashboard";
 import { useTrainBotContext } from "~/context/TrainBot";
 import ConfirmationModal from "../ConfirmationModal";
@@ -23,10 +29,13 @@ export default function SideBar({
   const { prompt, savePromptMessage, deleteUserPrompt } = useDashboardContext();
   const { isOpen, setIsOpen } = useTrainBotContext();
 
+  const [isDataOpen, setIsDataOpen] = useState(false);
+
   const [isConfirmationDeleteOpen, setIsConfirmationDeleteOpen] =
     useState(false);
 
   const params = useParams();
+  const location = useLocation();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -35,6 +44,14 @@ export default function SideBar({
     await savePromptMessage({ promptId: params.chatId });
     setIsLoading(false);
   };
+
+  const currentPage = useMemo(() => {
+    if (location.pathname.includes("train")) {
+      setIsDataOpen(true);
+      return "DATA";
+    }
+    return "TRAIN";
+  }, [location]);
   return (
     <>
       <aside
@@ -53,15 +70,48 @@ export default function SideBar({
             onClick={() => setIsOpen((op: boolean) => !op)}
             className="w-full items-center flex justify-start gap-4 px-3 py-2 bg-base-200 hover:bg-base-100 cursor-pointer rounded-lg"
           >
-            <BookOpenCheck className="size-7" strokeWidth={1.2} />
-            Test Prompt
+            <BookOpenCheck className="size-6" strokeWidth={1.2} />
+            Test Bot
+          </li>
+          <Link
+            to={`/bot/${params.chatId}`}
+            className={`"w-full items-center flex justify-start gap-4 px-3 py-2 bg-base-${
+              currentPage == "TRAIN" ? "100" : "200"
+            } hover:bg-base-100 cursor-pointer rounded-lg"`}
+          >
+            <Globe className="size-6" strokeWidth={1.2} />
+            Train Bot
+          </Link>
+          <li
+            className={`"w-full items-center flex justify-start gap-4 px-3 py-2 bg-base-200 hover:bg-base-100 cursor-pointer rounded-lg"`}
+          >
+            <BetweenHorizontalStart className="size-6" strokeWidth={1.2} />
+            <span className="flex-grow-1">Manage Data</span>
+            {isDataOpen ? (
+              <ChevronUp className="size-3" />
+            ) : (
+              <ChevronDown className="size-3" />
+            )}
+          </li>
+          <li className={`h-${isDataOpen ? "full" : "0"}`}>
+            <ul className="list-disc">
+              <li>Urls</li>
+              <li>Data</li>
+            </ul>
           </li>
           <li
             onClick={() => setIsConfirmationDeleteOpen(true)}
             className="w-full items-center flex justify-start gap-4 px-3 py-2 bg-base-200 hover:bg-base-100 cursor-pointer rounded-lg"
           >
-            <Trash2 className="size-7" strokeWidth={1.2} />
-            Delete Prompt
+            <Cable className="size-6" strokeWidth={1.2} />
+            Integrate Bot
+          </li>
+          <li
+            onClick={() => setIsConfirmationDeleteOpen(true)}
+            className="w-full items-center flex justify-start gap-4 px-3 py-2 bg-base-200 hover:bg-base-100 cursor-pointer rounded-lg"
+          >
+            <Trash2 className="size-6" strokeWidth={1.2} />
+            Delete Bot
           </li>
         </ul>
         <button
@@ -73,7 +123,7 @@ export default function SideBar({
           ) : (
             <>
               <SaveAll className="mr-1" />
-              Save Prompt
+              Save Bot
             </>
           )}
         </button>
