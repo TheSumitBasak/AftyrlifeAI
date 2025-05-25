@@ -32,15 +32,15 @@ export default function Footer() {
         <aside>
           <h1 className="text-2xl font-bold">AftyrLifeAI</h1>
           <div className="flex gap-3">
-            <Link className="link" to="/terms-of-use">
+            {/* <Link className="link" to="/terms-of-use">
               Terms of Use
             </Link>
             <Link className="link" to="/privacy-policy">
               Privacy Policy
-            </Link>
+            </Link> */}
           </div>
         </aside>
-        <nav>
+        {/* <nav>
           <h6 className="footer-title">Social</h6>
           <div className="grid grid-flow-col gap-4">
             <a>
@@ -77,7 +77,7 @@ export default function Footer() {
               </svg>
             </a>
           </div>
-        </nav>
+        </nav> */}
       </footer>
     </>
   );

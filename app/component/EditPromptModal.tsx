@@ -35,7 +35,7 @@ export default function EditPromptModal() {
           reset();
           dialogRef?.current?.showModal();
         }}
-        className="w-full items-center flex justify-start gap-4 px-3 py-2 bg-base-200 hover:bg-base-100 cursor-pointer rounded-lg"
+        className="w-full items-center flex justify-start gap-4 px-3 py-2 hover:bg-base-100 cursor-pointer rounded-lg"
       >
         <Settings2 className="size-6" strokeWidth={1.2} />
         Edit Metadata

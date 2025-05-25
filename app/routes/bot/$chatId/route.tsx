@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useBlocker, useLoaderData, useNavigate } from "react-router";
 import MessageBox from "~/component/chatBot/MessageBox";
 import Messages from "~/component/chatBot/Messages";
+import ConfirmationModal from "~/component/ConfirmationModal";
 import SideBar from "~/component/trainBot/SideDrawer";
 import TestPrompt from "~/component/trainBot/TestPrompt";
 import { useDashboardContext } from "~/context/Dashboard";
@@ -39,6 +40,8 @@ export default function TrainPrompt() {
   const [isMsgLoading, setMsgIsLoading] = useState(false);
 
   const [isNewMsg, setIsNewMsg] = useState(true);
+  const [isConfirmationDeleteOpen, setIsConfirmationDeleteOpen] =
+    useState(false);
 
   useEffect(() => {
     if (!res.data) {
@@ -124,12 +127,23 @@ export default function TrainPrompt() {
 
   return (
     <>
+      <ConfirmationModal
+        isOpen={isConfirmationDeleteOpen}
+        onOk={async () => {
+          await resetPrompt({ promptId: res.data._id });
+        }}
+        title="Confirmation"
+        message={
+          "Are you sure you want to reset this prompt?\nThis action cannot be undone."
+        }
+        onClose={() => setIsConfirmationDeleteOpen(false)}
+      />
       <div
         className="tooltip tooltip-bottom fixed z-10 top-20 right-5"
         data-tip="reset"
       >
         <button
-          onClick={() => resetPrompt({ promptId: res.data._id })}
+          onClick={() => setIsConfirmationDeleteOpen(true)}
           className="shadow-lg bg-primary/80 p-3 rounded-lg text-base-200 cursor-pointer"
         >
           <RefreshCcw strokeWidth={3} className="size-5 stroke-text-base-200" />

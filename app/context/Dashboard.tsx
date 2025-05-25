@@ -54,7 +54,7 @@ export default function DashboardProvider({
     } else {
       getProfile();
     }
-  }, [cookies]);
+  }, []);
 
   const getProfile = async () => {
     try {
