@@ -45,6 +45,10 @@ export default function MessageBox({
       onSubmit={async (ev) => {
         ev.preventDefault();
         setMessage("");
+        if (textRef.current) {
+          textRef.current.value = "";
+          textRef.current.dispatchEvent(new Event("input", { bubbles: true }));
+        }
         setIsLoading(true);
         await onSubmit(message);
         setIsLoading(false);
